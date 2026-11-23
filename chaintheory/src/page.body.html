@@ -1,0 +1,222 @@
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">Chain Theory for Physicists · a model to handle · status as of November 22, 2026</p>
+  <h1>Chain Theory Building Set</h1>
+  <p class="lead">Chain Theory, an unproven research program announced by Alex Wissner-Gross in October 2026, says that nothing exists but finitely many maximally entangled pairs of small quantum systems, some of them shared. Here that axiom is a construction set: a ball for every quantum system, a rod for every entangled pair, and the theory's own particle networks assembled from its published data.</p>
+</header>
+
+<section class="bench" aria-label="The building set">
+  <div class="chart">
+    <div class="heads" aria-hidden="true"><span>Gen. I</span><span>Gen. II</span><span>Gen. III</span><span>Forces</span><span>Other</span></div>
+    <div class="tiles" id="tiles" role="group" aria-label="Choose a model"></div>
+  </div>
+  <div class="gradebox">
+    <p class="grades"><b><i class="pip theorem"></i>Theorem</b>, proved within the theory's rules. <b><i class="pip conditional"></i>Conditional</b>, proved if steps named beside it hold. <b><i class="pip open"></i>Open</b>, unfinished. <b><i class="pip book"></i>Book</b>, assembled for the book. The first three grades, and the quoted note on each placard, are the theory's own, read from its data file.</p>
+  </div>
+
+  <div class="stagecol">
+    <div class="stage">
+      <div class="frame" id="frame">
+        <svg id="scene" tabindex="0" role="img" aria-label="Ball-and-stick model">
+          <defs>
+            <radialGradient id="g2" cx="34%" cy="30%" r="78%"><stop offset="0" class="s2a"/><stop offset=".5" class="s2b"/><stop offset="1" class="s2c"/></radialGradient>
+            <radialGradient id="g3" cx="34%" cy="30%" r="78%"><stop offset="0" class="s3a"/><stop offset=".5" class="s3b"/><stop offset="1" class="s3c"/></radialGradient>
+            <radialGradient id="g4" cx="34%" cy="30%" r="78%"><stop offset="0" class="s4a"/><stop offset=".5" class="s4b"/><stop offset="1" class="s4c"/></radialGradient>
+          </defs>
+          <g id="layer"></g>
+          <g id="overlay"></g>
+        </svg>
+      </div>
+      <p class="inspect" id="inspect" aria-live="polite"></p>
+      <div class="key">
+        <span><i class="b d2"></i>qubit<em>, two states</em></span>
+        <span><i class="b d3"></i>qutrit<em>, three states</em></span>
+        <span><i class="b d4"></i>hub<em>, four states</em></span>
+        <span><i class="r"></i>clear rod<em>, one look pins it down</em></span>
+        <span><i class="r dk"></i>hidden rod</span>
+        <span><i class="sk"></i>free socket</span>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="b-left" type="button" aria-label="Turn the model left">◀</button>
+      <button class="btn" id="b-right" type="button" aria-label="Turn the model right">▶</button>
+      <button class="btn" id="b-spin" type="button" aria-pressed="false">Spin</button>
+      <button class="btn" id="b-sock" type="button" aria-pressed="true">Free sockets</button>
+      <button class="btn" id="b-reset" type="button">Reset</button>
+    </div>
+  </div>
+
+  <article class="placard" id="placard" aria-live="polite"></article>
+</section>
+
+<section class="sec" id="rules">
+  <div class="tag">The rules</div>
+  <div class="body">
+    <h2>Two rules make it a set</h2>
+    <p>The set has three kinds of ball. A qubit is a quantum system with two basic states and a qutrit has three. A hub is two qubits read as a single piece with four states. A rod is one maximally entangled pair, with a ball at each end. A ball can sit at the end of several rods at once. The theory then carries it as one copy for each rod, so no pair ever has to share its entanglement with a third piece.</p>
+    <div class="pieces">
+      <div class="piece">
+        <svg viewBox="0 0 86 86" aria-hidden="true"><circle class="pc2" cx="43" cy="43" r="24"/><circle class="hole" cx="19" cy="43" r="5"/><circle class="hole" cx="67" cy="43" r="5"/><text class="pcn" x="43" y="51" font-size="23">2</text></svg>
+        <b>Qubit</b><span>two states, two sockets</span>
+      </div>
+      <div class="piece">
+        <svg viewBox="0 0 86 86" aria-hidden="true"><circle class="pc3" cx="43" cy="43" r="27"/><circle class="hole" cx="43" cy="16" r="5"/><circle class="hole" cx="19.6" cy="56.5" r="5"/><circle class="hole" cx="66.4" cy="56.5" r="5"/><text class="pcn" x="43" y="51" font-size="23">3</text></svg>
+        <b>Qutrit</b><span>three states, three sockets</span>
+      </div>
+      <div class="piece">
+        <svg viewBox="0 0 86 86" aria-hidden="true"><circle class="pc4" cx="43" cy="43" r="30"/><circle class="hole" cx="21.8" cy="21.8" r="5"/><circle class="hole" cx="64.2" cy="21.8" r="5"/><circle class="hole" cx="21.8" cy="64.2" r="5"/><circle class="hole" cx="64.2" cy="64.2" r="5"/><text class="pcn" x="43" y="51" font-size="23">4</text></svg>
+        <b>Hub</b><span>two qubits read as one, four sockets</span>
+      </div>
+    </div>
+    <p>The first rule is about sockets. A ball with two, three or four states can end at most two, three or four rods. This is the theory's valence law, a rule its author chose, and it does real work. A qutrit in the electron's triangle spends two sockets on the triangle and has one left. What fills that last socket at each corner is what separates the electron from the muon and the tau.</p>
+    <p>The second rule is about looking. Multiply the numbers on the two balls of a rod. If the product is six or less, a single look, which the theory calls a read, can pin the pair down. If it is more than six, no single look can. The theory's words for the two kinds are readable and dark, and this page calls them clear and hidden. The threshold is established mathematics. By theorems of Størmer, Woronowicz and Choi, six is the largest product for which one standard test decides whether two systems are entangled. The theory joins that fact to its own definition of a read.</p>
+    <div class="tbl"><table id="rodtable" class="stack rods">
+      <thead><tr><th>Rod</th><th>Product</th><th>One look</th><th>Sector assigned</th><th>Where the models use it</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p>The fourth column is the part of physics that the theory takes each kind of rod to correspond to. Its own data file marks these assignments as conjectured. They show in the models: the gluon is a chain of the strong interaction's rods, the photon a chain of electromagnetism's, and the Higgs a single rod of its own kind.</p>
+    <p>A hub with its three qubits, two of them tied to each other, is a cluster that the theory calls a hub assembly. It appears again and again: one of them turns an up quark into a down quark, and one more at each step turns an electron into a muon and a muon into a tau.</p>
+    <p>The hole counts are those of a school molecular model set, where two-hole, three-hole and four-hole balls usually stand for oxygen, nitrogen and carbon. Every model on this page can be built with one, using the short rigid links for clear rods and the long flexible ones for hidden rods. In none of the models here do the clear rods close a ring, so a rigid link never has to bend. This match is the book's illustration and no part of the theory, and the shapes mean nothing: the theory gives its networks no lengths and no angles.</p>
+  </div>
+</section>
+
+<section class="sec" id="rod">
+  <div class="tag">Bench trials</div>
+  <div class="body">
+    <h2>What a rod is</h2>
+    <p>A rod stands for one maximally entangled pair. Three small benches show what that means, using nothing but standard quantum mechanics for the pair.</p>
+    <div class="trials">
+
+      <article class="trial" id="trial-look">
+        <h3>Look at both ends</h3>
+        <figure>
+          <svg viewBox="0 0 320 112" role="img" aria-label="Two qubits joined by one rod. Each shows its latest answer.">
+            <line class="t-rod" x1="82" y1="52" x2="238" y2="52"/>
+            <g transform="translate(56,52)"><circle class="tb2" r="27"/><g class="ans" id="ans-a"></g></g>
+            <g transform="translate(264,52)"><circle class="tb2" r="27"/><g class="ans" id="ans-b"></g></g>
+            <text class="lbl m" x="56" y="104">left end</text><text class="lbl m" x="264" y="104">right end</text>
+          </svg>
+        </figure>
+        <div class="ways">
+          <div class="way"><span id="wl-a">Left looks</span><div class="seg" id="seg-a" role="group" aria-labelledby="wl-a"></div></div>
+          <div class="way"><span id="wl-b">Right looks</span><div class="seg" id="seg-b" role="group" aria-labelledby="wl-b"></div></div>
+        </div>
+        <div class="row">
+          <button class="btn go" id="look-1" type="button">Look once</button>
+          <button class="btn" id="look-100" type="button">Look 100 times</button>
+          <button class="btn" id="look-clear" type="button">Clear</button>
+        </div>
+        <table class="tally" id="tally" aria-label="How often each pair of answers has come up"></table>
+        <p class="sum" id="look-sum" aria-live="polite"></p>
+        <p>Each end is a qubit. The theory counts three ways of looking at a qubit, which can be pictured as three perpendicular directions. Each end alone answers like a tossed coin. When the two ways match, the two answers are always the same. When they differ, one answer says nothing about the other.</p>
+        <p class="note">Simulated from the quantum rule for one maximally entangled pair. The way that matches at the far end is the complex conjugate of the near one, as the theory's Letter spells out.</p>
+      </article>
+
+      <article class="trial" id="trial-distill">
+        <h3>Distill two rods into one</h3>
+        <figure>
+          <svg class="swap" id="swap" viewBox="0 0 320 132" role="img" aria-label="Four qubits in a row, A to D. Before: rods join A to B and C to D. After distilling B with C: rods join B to C and A to D.">
+            <g class="before"><line class="t-rod" x1="62" y1="88" x2="98" y2="88"/><line class="t-rod" x1="222" y1="88" x2="258" y2="88"/><text class="lbl m" x="80" y="126">pair</text><text class="lbl m" x="240" y="126">pair</text></g>
+            <g class="after"><path class="t-rod new" d="M40 66 C 40 6, 280 6, 280 66"/><line class="t-rod new" x1="142" y1="88" x2="178" y2="88"/><rect class="clamp" x="92" y="60" width="136" height="56" rx="8"/><text class="lbl" x="160" y="16">new pair</text><text class="lbl" x="160" y="130">distilled</text></g>
+            <g transform="translate(40,88)"><circle class="tb2" r="21"/><g class="ans"><text y="8">A</text></g></g>
+            <g transform="translate(120,88)"><circle class="tb2" r="21"/><g class="ans"><text y="8">B</text></g></g>
+            <g transform="translate(200,88)"><circle class="tb2" r="21"/><g class="ans"><text y="8">C</text></g></g>
+            <g transform="translate(280,88)"><circle class="tb2" r="21"/><g class="ans"><text y="8">D</text></g></g>
+          </svg>
+        </figure>
+        <div class="row">
+          <button class="btn go" id="distill" type="button" aria-pressed="false">Distill B with C</button>
+        </div>
+        <p class="sum" id="distill-sum" aria-live="polite">Two pairs: A with B, and C with D.</p>
+        <p>The axiom allows one operation, called distilling: two pieces are projected onto a pair. Do that to the inner ends of two rods and the outer ends, which never met, are left as a pair as well. Physicists know this as entanglement swapping. It moves entanglement and adds none.</p>
+        <p class="note">In a laboratory this outcome turns up one time in four for qubits. In the theory the other outcomes are no configuration of the axiom, so the projection is simply the act.</p>
+      </article>
+
+      <article class="trial" id="trial-unlike">
+        <h3>A rod between unlike ends</h3>
+        <figure>
+          <svg viewBox="0 0 320 176" role="img" aria-label="A qubit's two states tied by two strands to two of a qutrit's three states. The third qutrit state is left untied.">
+            <rect class="cap2" x="34" y="20" width="72" height="104" rx="36"/><rect class="cap3" x="214" y="6" width="72" height="144" rx="36"/>
+            <path class="strand" d="M82 48 C 150 48, 170 36, 238 36"/><path class="strand" d="M82 96 C 150 96, 170 78, 238 78"/>
+            <circle class="slot q2" cx="70" cy="48" r="12"/><circle class="slot q2" cx="70" cy="96" r="12"/>
+            <circle class="slot q3" cx="250" cy="36" r="12"/><circle class="slot q3" cx="250" cy="78" r="12"/><circle class="slot q3" cx="250" cy="120" r="12"/>
+            <text class="lbl" x="160" y="30">charge +⅔</text><text class="lbl" x="160" y="106">charge −⅓</text>
+            <text class="lbl m" x="228" y="124" style="text-anchor:end">left untied</text>
+            <text class="lbl m" x="70" y="144">qubit</text><text class="lbl m" x="250" y="170">qutrit</text>
+          </svg>
+        </figure>
+        <p>A qutrit has one state more than a qubit, so a rod between them ties the qubit's two states to two of the qutrit's three and leaves the third untied. Count the ways of relabeling the states at the two ends, three at one and two at the other, with one phase between them. Together they form the symmetry group behind the Standard Model's three forces, in one of the four forms that the known particles allow, and the two tied strands carry the electric charges of an up quark and a down quark.</p>
+        <p class="note">That much is established group theory. That nature's forces arise this way is the theory's conjecture.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="number">
+  <div class="tag">The one number</div>
+  <div class="body">
+    <h2>A count that lands on 137</h2>
+    <p>The theory's best-known result is a number. Take one qutrit with three rods to three qubits. Read two of the rods and leave the third unread. The theory calls this arrangement the fine-structure star, and it counts the ways the two reads can pass through it. There are 172, which it calls records. They fall into four groups, and each record enters the sum with the square root of the product of the ends it passes.</p>
+    <div class="number">
+      <div class="star">
+        <figure>
+          <svg viewBox="0 0 300 196" role="img" aria-label="The fine-structure star: one qutrit joined to three qubits. Two rods are read and the third is held unread.">
+            <line class="t-rod new" x1="131" y1="92" x2="72" y2="52"/><line class="t-rod new" x1="169" y1="92" x2="228" y2="52"/><line class="t-rod" x1="150" y1="130" x2="150" y2="152"/>
+            <g transform="translate(150,106)"><circle class="tb3" r="24"/><g class="ans"><text y="8">3</text></g></g>
+            <g transform="translate(56,42)"><circle class="tb2" r="19"/><g class="ans"><text y="8">2</text></g></g>
+            <g transform="translate(244,42)"><circle class="tb2" r="19"/><g class="ans"><text y="8">2</text></g></g>
+            <g transform="translate(150,172)"><circle class="tb2" r="19"/><g class="ans"><text y="8">2</text></g></g>
+            <text class="lbl" x="92" y="92">read</text><text class="lbl" x="208" y="92">read</text><text class="lbl m" x="216" y="150">held, unread</text>
+          </svg>
+          <figcaption>The fine-structure star. All three rods join a qutrit to a qubit, the one kind of rod that is both clear and unlike at its ends.</figcaption>
+        </figure>
+      </div>
+      <div class="count">
+        <figure>
+          <div class="waffle" id="waffle" role="img" aria-label="The 172 records in four groups of 79, 48, 42 and 3."></div>
+          <figcaption>Every square is one record. The darker the group, the more each record weighs.</figcaption>
+        </figure>
+        <p class="sumline" id="sumline"></p>
+        <p class="note">The divisor 31,104 is the size of the space the two reads are taken over: 24 from the rod left unread and 36 from each rod that is read.</p>
+      </div>
+      <div class="versus">
+        <figure>
+          <div class="plot" id="plot"></div>
+          <figcaption>Measured values of 1/α with their standard uncertainties, and the theory's candidate as the vertical line. It lies within the margin of the latest official value. Earlier official values and the three most precise single measurements are spread more widely than their own margins.</figcaption>
+        </figure>
+        <details>
+          <summary>Show the numbers</summary>
+          <div class="tbl"><table id="plottable" class="stack"><thead><tr><th>Source</th><th class="keep">Value of 1/α</th><th>Candidate lies</th></tr></thead><tbody></tbody></table></div>
+        </details>
+      </div>
+    </div>
+    <p>The arithmetic is exact and has been checked by machine. What it means is not settled. The theory conjectures that this kind of rod is the elementary link of light and that the number is therefore the inverse of the fine-structure constant α, which sets the strength of electricity and magnetism. The match with the 2022 official value runs to ten digits, and newer measurements will show whether it holds.</p>
+  </div>
+</section>
+
+<section class="sec" id="limits">
+  <div class="tag">The limits</div>
+  <div class="body">
+    <h2>A set with no ruler and no clock</h2>
+    <p>The models come without lengths, masses or times, and the theory's documents print none in ordinary units. Where its counts are read directly as physical sizes, they miss. The table gives four examples, worked through in Appendix F of the book.</p>
+    <div class="tbl"><table class="stack">
+      <thead><tr><th>Quantity</th><th>Measured</th><th>From the set</th></tr></thead>
+      <tbody>
+        <tr><td class="q">Proton's mass, in electron masses</td><td class="n" data-l="Measured">1,836.15</td><td data-l="From the set">No value. In the theory's own words it stands outside the comparison by orders at every reading the construction has produced.</td></tr>
+        <tr><td class="q">Neutron heavier than the proton by</td><td class="n" data-l="Measured">0.138 percent</td><td data-l="From the set">47 percent, if the two networks' counts are read directly as masses</td></tr>
+        <tr><td class="q">Binding energy of hydrogen's lowest level, as a share of the electron's rest energy</td><td class="n" data-l="Measured">2.66 × 10⁻⁵</td><td data-l="From the set">1.74 × 10⁻¹⁴ read directly, though the ladder's whole-number pattern is right</td></tr>
+        <tr><td class="q">Neutron's mean life</td><td class="n" data-l="Measured">878 seconds</td><td data-l="From the set">No clock. One reading has the neutron decay and another has it last forever.</td></tr>
+      </tbody>
+    </table></div>
+    <p>So the models are best taken as a picture of what the theory claims and of what it still owes. On counts and patterns they do well, though mostly through results the theory itself marks as conditional: two polarizations of light, whole electric charges built from thirds, a neutral neutron, three generations. A finished theory would have to turn the same counts into the measured numbers.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Sources. A. D. Wissner-Gross, <i>Chain Theory: Toward Fundamental Physics from Distilling Networks of Entangled Qudits</i>, compendium release 0.1, and the Letter “A Parameter-Free Candidate for the Fine-Structure Constant from Entangled Qudits”, both at <a href="https://github.com/alexwg/chain-theory">github.com/alexwg/chain-theory</a>, commit a28db89, used under the repository's licenses (CC BY 4.0 for text, Apache 2.0 for code) and unchanged as of November 22, 2026. The networks come from compendium/figures/particles.json, the sectors from compendium/figures/genres.json and the records from papers/alpha/anc/records.csv. The neutron and the star form of the proton come from Appendix F of <i>Chain Theory for Physicists</i>.</p>
+  <p>Measured values of 1/α: the CODATA adjustments of 2010, 2014, 2018 and 2022; Parker and others, Science 360, 191 (2018); Morel and others, Nature 588, 61 (2020); Fan and others, Physical Review Letters 130, 071801 (2023). The shapes of the models are computed by a spring model and carry no physical content.</p>
+</footer>
+
+</div>

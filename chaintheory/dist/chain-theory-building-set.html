@@ -1,0 +1,1049 @@
+<title>Chain Theory Building Set</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: an exhibit case. One model stands on a dotted bench mat beside a parts chart laid out like the Standard Model table; under it, placards run down a reading column, each with a drawing or a small bench trial. */
+:root{
+  --paper:#F2F4F7; --panel:#FFFFFF; --ink:#18202C; --muted:#566173; --rule:#D3DAE3; --dot:#DCE2EA;
+  --accent:#B3245C; --on-accent:#FFFFFF;
+  --qubit:#2F6FD0; --qubit-hi:#8DB9F7; --qubit-lo:#1B448A;
+  --qutrit:#23905F; --qutrit-hi:#79D3A7; --qutrit-lo:#115638;
+  --hub:#D07A1F; --hub-hi:#F7BC78; --hub-lo:#7E4409;
+  --onball:#FFFFFF; --rod:#18202C; --rod-dark:#8590A1;
+  --display:"Barlow Semi Condensed","Arial Narrow","Inter",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Inter","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1319; --panel:#171C25; --ink:#E6EAF0; --muted:#9BA6B6; --rule:#2B3442; --dot:#252D3A;
+    --accent:#F27AA6; --on-accent:#1A0B12;
+    --qubit:#3D7FE0; --qubit-hi:#9CC4FB; --qubit-lo:#173C7C;
+    --qutrit:#2A9F6B; --qutrit-hi:#86DDB3; --qutrit-lo:#0F4D32;
+    --hub:#D07A1F; --hub-hi:#F5BA78; --hub-lo:#733E08;
+    --onball:#FFFFFF; --rod:#E6EAF0; --rod-dark:#6F7B8D; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1319; --panel:#171C25; --ink:#E6EAF0; --muted:#9BA6B6; --rule:#2B3442; --dot:#252D3A;
+  --accent:#F27AA6; --on-accent:#1A0B12;
+  --qubit:#3D7FE0; --qubit-hi:#9CC4FB; --qubit-lo:#173C7C;
+  --qutrit:#2A9F6B; --qutrit-hi:#86DDB3; --qutrit-lo:#0F4D32;
+  --hub:#D07A1F; --hub-hi:#F5BA78; --hub-lo:#733E08;
+  --onball:#FFFFFF; --rod:#E6EAF0; --rod-dark:#6F7B8D; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:36px 64px}
+.wrap{max-width:1120px;margin:0 auto;display:grid;gap:60px}
+p{margin:0}
+a{color:inherit;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{font:inherit;color:inherit}
+
+/* header */
+.top{display:grid;gap:14px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(38px,6.4vw,64px);line-height:1;letter-spacing:-.005em;margin:0;text-wrap:balance}
+.lead{font-size:18px;max-width:68ch}
+
+/* the bench */
+.bench{display:grid;grid-template-columns:minmax(0,1.22fr) minmax(0,1fr);grid-template-rows:auto auto 1fr;grid-template-areas:"stage chart" "stage grades" "stage placard";gap:14px 30px;align-items:start}
+.gradebox{grid-area:grades;min-width:0}
+.stagecol{grid-area:stage;display:grid;gap:10px;min-width:0}
+.chart{grid-area:chart;display:grid;gap:8px;min-width:0}
+.placard{grid-area:placard;display:grid;gap:12px;min-width:0;align-content:start}
+.stage{position:relative;border:1px solid var(--rule);border-radius:6px;background-color:var(--panel);
+  background-image:radial-gradient(var(--dot) 1.1px, transparent 1.4px);background-size:22px 22px;overflow:hidden}
+.stage .frame{position:relative;aspect-ratio:1/0.86;max-width:100%}
+#scene{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+#scene.grabbing{cursor:grabbing}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;padding:9px 12px;border-top:1px solid var(--rule);background:var(--panel);font-size:13px;color:var(--muted)}
+.key span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.key em{font-style:normal;margin-left:-6px}
+.sk{display:inline-block;width:9px;height:9px;border-radius:50%;border:1.6px solid var(--rod-dark);flex:none}
+.b{display:inline-block;width:12px;height:12px;border-radius:50%;flex:none}
+.b.d2{background:var(--qubit)} .b.d3{background:var(--qutrit);width:14px;height:14px} .b.d4{background:var(--hub);width:16px;height:16px}
+.r{display:inline-block;width:26px;height:0;border-top:3px solid var(--rod);flex:none}
+.r.dk{border-top:3px dashed var(--rod-dark)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;padding:8px 12px;min-height:38px;border:1px solid var(--rule);border-radius:4px;background:var(--panel);cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.go{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.inspect{font-size:15px;line-height:1.45;min-height:calc(4.35em + 20px);padding:10px 12px;border-top:1px solid var(--rule);background:var(--panel)}
+
+/* the scene */
+.s2a{stop-color:var(--qubit-hi)} .s2b{stop-color:var(--qubit)} .s2c{stop-color:var(--qubit-lo)}
+.s3a{stop-color:var(--qutrit-hi)} .s3b{stop-color:var(--qutrit)} .s3c{stop-color:var(--qutrit-lo)}
+.s4a{stop-color:var(--hub-hi)} .s4b{stop-color:var(--hub)} .s4c{stop-color:var(--hub-lo)}
+.rod .vis{stroke:var(--rod);stroke-linecap:round;fill:none}
+.rod.dark .vis{stroke:var(--rod-dark)}
+.rod .hit{stroke:transparent;stroke-width:20;stroke-linecap:round;cursor:pointer;pointer-events:stroke}
+.rod .halo{stroke:var(--accent);stroke-linecap:round;opacity:.45}
+.rod.sel .vis{stroke:var(--accent)}
+.ball{cursor:grab;touch-action:none}
+.ball .body{stroke:var(--panel);stroke-width:1.5}
+.ball.d2 .body{fill:url(#g2)} .ball.d3 .body{fill:url(#g3)} .ball.d4 .body{fill:url(#g4)}
+.ball .fog{fill:var(--panel);pointer-events:none}
+.ball .num{fill:var(--onball);font-family:var(--display);font-weight:700;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke-width:2.6px;stroke-linejoin:round}
+.ball.d2 .num{stroke:var(--qubit-lo)} .ball.d3 .num{stroke:var(--qutrit-lo)} .ball.d4 .num{stroke:var(--hub-lo)}
+.ball.sel .body{stroke:var(--accent);stroke-width:3.5}
+.ball .ring{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:5 4;pointer-events:none}
+.sock{pointer-events:none}
+.sock line{stroke:var(--rod-dark);stroke-linecap:round}
+.sock circle{fill:var(--panel);stroke:var(--rod-dark)}
+.nosock .sock{display:none}
+.pill rect{fill:var(--ink)} .pill text{fill:var(--paper);font-family:var(--mono);font-size:12.5px;text-anchor:middle}
+
+/* the chart of models */
+.heads,.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.heads span{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-left:2px}
+.tile{position:relative;display:grid;gap:2px;justify-items:start;align-content:center;min-height:56px;padding:7px 8px;border:1px solid var(--rule);border-radius:4px;background:var(--panel);cursor:pointer;text-align:left;min-width:0}
+.tile:hover{border-color:var(--muted)}
+.tile .sym{font-family:var(--body);font-weight:600;font-size:21px;line-height:1.05}
+.tile .sym sub,.tile .sym sup{font-size:.6em}
+.tile .nm{font-size:11px;line-height:1.2;color:var(--muted)}
+.tile[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tile[aria-pressed="true"] .nm{color:var(--paper);opacity:.82}
+.pip{display:inline-block;width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;flex:none}
+.pip.theorem{background:currentColor}
+.pip.conditional{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+.pip.book{border-radius:0;transform:rotate(45deg) scale(.86)}
+.tile .pip{position:absolute;top:7px;right:7px}
+.grades{font-size:13.5px;color:var(--muted);line-height:1.5}
+.grades b{font-weight:500;color:var(--ink);white-space:nowrap}
+.grades .pip{margin-right:5px;vertical-align:-1px}
+
+/* the placard */
+.kicker{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.placard h2{font-family:var(--display);font-weight:600;font-size:34px;line-height:1.05;margin:0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.placard h2 .psym{font-family:var(--body);font-weight:500;font-size:.86em;color:var(--muted)}
+.placard h2 .psym sub,.placard h2 .psym sup{font-size:.6em}
+.placard h3{font-family:var(--mono);font-weight:500;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:6px 0 0}
+.forms{display:flex;gap:6px;flex-wrap:wrap}
+.parts{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:15px}
+.parts span{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.parts b{font-family:var(--mono);font-weight:500}
+.stand{font-size:15px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--ink);border-radius:3px;padding:2px 7px;margin-right:8px;white-space:nowrap;vertical-align:1px}
+.stand q{quotes:"\201C" "\201D"}
+.conj{font-size:15px;color:var(--muted)}
+.tech{font-family:var(--mono);font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+
+/* the reading column */
+.sec{display:grid;grid-template-columns:190px minmax(0,1fr);gap:10px 34px;border-top:1px solid var(--rule);padding-top:26px}
+.sec > .tag{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:9px}
+.sec > .body{display:grid;gap:18px;min-width:0}
+.sec h2{font-family:var(--display);font-weight:600;font-size:34px;line-height:1.08;margin:0;text-wrap:balance}
+.sec p{max-width:68ch}
+.note{font-size:14.5px;color:var(--muted)}
+figure{margin:0;display:grid;gap:10px;min-width:0}
+figcaption{font-size:14.5px;color:var(--muted);max-width:68ch}
+svg text{font-family:var(--body)}
+
+/* the three pieces */
+.pieces{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.piece{display:grid;justify-items:center;gap:6px;text-align:center;padding:14px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--panel)}
+.piece svg{width:86px;height:86px;color:var(--ink)}
+.piece b{font-family:var(--display);font-weight:600;font-size:20px;line-height:1.1}
+.piece span{font-size:14px;color:var(--muted);line-height:1.4}
+.pc2{fill:var(--qubit)} .pc3{fill:var(--qutrit)} .pc4{fill:var(--hub)}
+.pcn{fill:var(--onball);font-family:var(--display);font-weight:700;text-anchor:middle}
+.hole{fill:var(--panel);stroke:currentColor;stroke-width:1.5}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.45}
+.tbl table{min-width:620px}
+th,td{text-align:left;vertical-align:middle;padding:10px 12px;border-bottom:1px solid var(--rule)}
+th{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:500}
+th.keep{text-transform:none;letter-spacing:.02em}
+td.sc{font-weight:500}
+tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.mini{display:block;width:92px;height:28px;color:var(--ink)}
+.mini .ln{stroke:var(--rod);stroke-width:3.5;stroke-linecap:round}
+.mini .ln.dk{stroke:var(--rod-dark);stroke-dasharray:5 5}
+.mini text{fill:var(--onball);font-family:var(--display);font-weight:700;font-size:12px;text-anchor:middle}
+.yes,.no{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+.cut td{border-bottom:2px solid var(--ink)}
+
+/* the bench trials */
+.trials{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+#trial-look{grid-row:span 2}
+.trial{display:grid;gap:12px;align-content:start;padding:18px;border:1px solid var(--rule);border-radius:6px;background:var(--panel);min-width:0}
+.trial h3{font-family:var(--display);font-weight:600;font-size:23px;line-height:1.1;margin:0}
+.trial p{font-size:15.5px}
+.trial figure svg{display:block;width:100%;max-width:360px;height:auto;margin:0 auto;color:var(--ink)}
+.t-rod{stroke:var(--rod);stroke-width:5;stroke-linecap:round;fill:none}
+.t-rod.new{stroke:var(--accent)}
+.tb2{fill:var(--qubit)} .tb3{fill:var(--qutrit)}
+.ans path,.ans circle,.ans line{stroke:var(--onball);stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ans .dot{fill:var(--onball);stroke:none}
+.ans text{fill:var(--onball);font-family:var(--display);font-weight:700;font-size:24px;text-anchor:middle}
+.lbl{fill:currentColor;font-size:12.5px;text-anchor:middle}
+.lbl.m{fill:var(--muted)}
+.ways{display:grid;gap:8px}
+.way{display:grid;gap:5px}
+.way > span{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:4px}
+.seg .btn{padding:6px 8px;min-height:36px;font-size:11.5px;letter-spacing:0;flex:1 1 auto;text-align:center}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.tally{font-variant-numeric:tabular-nums;font-size:14px}
+.tally th,.tally td{padding:7px 10px}
+.tally td{position:relative;font-family:var(--mono);min-width:86px}
+.tally td i{position:absolute;left:0;bottom:0;height:3px;background:var(--accent)}
+.sum{font-size:15px}
+.swap .after{opacity:0;transition:opacity .5s ease}
+.swap .before{transition:opacity .5s ease}
+.swap.done .after{opacity:1} .swap.done .before{opacity:0}
+.clamp{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:4 4}
+.strand{stroke:var(--rod);stroke-width:3;stroke-linecap:round;fill:none}
+.slot{fill:var(--panel);stroke-width:2.5}
+.slot.q2{stroke:var(--qubit)} .slot.q3{stroke:var(--qutrit)}
+.cap2{fill:var(--qubit);opacity:.14} .cap3{fill:var(--qutrit);opacity:.14}
+
+/* the one number */
+.number{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);grid-template-areas:"star count" "versus versus";gap:24px 30px;align-items:center}
+.star{grid-area:star;min-width:0} .count{grid-area:count;display:grid;gap:14px;min-width:0} .versus{grid-area:versus;display:grid;gap:12px;min-width:0}
+.star svg{display:block;width:100%;max-width:300px;height:auto;margin:0 auto;color:var(--ink)}
+.waffle{display:grid;gap:10px}
+.wg{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;align-items:center}
+.wg .cells{display:grid;grid-template-rows:repeat(4,8px);grid-auto-flow:column;grid-auto-columns:8px;gap:2px;justify-content:start}
+.wg .cells i{background:var(--ink);border-radius:1px}
+.wg.k1 .cells i{opacity:.26} .wg.k2 .cells i{opacity:.46} .wg.k3 .cells i{opacity:.68} .wg.k6 .cells i{opacity:1}
+.wg span{font-size:13px;line-height:1.3;color:var(--muted)}
+.wg span b{display:block;font-family:var(--mono);font-weight:500;color:var(--ink);font-size:13.5px}
+.sumline{font-family:var(--mono);font-size:14.5px;line-height:1.9;font-variant-numeric:tabular-nums;overflow-x:auto;white-space:nowrap;padding-bottom:2px}
+.sumline b{font-weight:500;color:var(--accent)}
+.plot{position:relative;border:1px solid var(--rule);border-radius:6px;background:var(--panel);padding:10px 6px 6px}
+.plot svg{display:block;width:100%;color:var(--ink)}
+.plot .grid{stroke:var(--rule);stroke-width:1}
+.plot .ax{fill:var(--muted);font-size:11.5px;font-family:var(--mono)}
+.plot .rl{fill:currentColor;font-size:13px}
+.plot .gl{fill:var(--muted);font-size:11.5px;font-family:var(--mono);letter-spacing:.05em;text-transform:uppercase}
+.plot .sg{fill:var(--muted);font-size:12px;font-family:var(--mono);text-anchor:end}
+.plot .wh{stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.plot .pt{fill:currentColor;stroke:var(--panel);stroke-width:2}
+.plot .cand{stroke:var(--accent);stroke-width:2}
+.plot .cl{fill:var(--accent);font-size:12.5px;font-weight:600}
+.plot .hit{fill:transparent;cursor:default}
+.plot .hit:hover,.plot .hit:focus{fill:var(--ink);fill-opacity:.05;outline:none}
+.tip{position:absolute;z-index:2;max-width:250px;padding:8px 10px;border-radius:4px;background:var(--ink);color:var(--paper);font-size:13px;line-height:1.4;pointer-events:none}
+details{font-size:14.5px}
+summary{cursor:pointer;font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:6px 0}
+details .tbl{margin-top:8px}
+
+footer{border-top:1px solid var(--rule);padding-top:22px;font-size:14px;color:var(--muted);display:grid;gap:10px}
+footer p{max-width:86ch}
+
+@media (max-width:900px){
+  .bench{grid-template-columns:minmax(0,1fr);grid-template-rows:none;grid-template-areas:"stage" "chart" "placard" "grades";gap:16px}
+  .stage .frame{aspect-ratio:1/0.98}
+  .number{grid-template-columns:minmax(0,1fr);grid-template-areas:"star" "count" "versus"}
+  .trials{grid-template-columns:minmax(0,1fr)}
+  #trial-look{grid-row:auto}
+  .sec{grid-template-columns:minmax(0,1fr)}
+  .sec > .tag{padding-top:0}
+  .wrap{gap:44px}
+}
+@media (max-width:480px){
+  body{font-size:16px;padding-block:24px 48px}
+  .lead{font-size:16.5px}
+  .top{gap:10px}
+  .wrap{gap:36px}
+  .key{gap:6px 13px;padding:8px 10px}
+  .key em{display:none}
+  .inspect{font-size:14.5px;min-height:calc(7.25em + 20px)}
+  .heads,.tiles{gap:5px}
+  .tile{min-height:50px;padding:6px 6px}
+  .tile .sym{font-size:19px}
+  .tile .pip{top:6px;right:6px}
+  .placard h2,.sec h2{font-size:29px}
+  .pieces{gap:8px}
+  .piece{padding:10px 6px}
+  .piece svg{width:70px;height:70px}
+  .piece span{font-size:13px}
+  .wg{grid-template-columns:128px minmax(0,1fr);gap:8px}
+}
+@media (max-width:640px){
+  .tbl table.stack{min-width:0}
+  table.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  table.stack tr{display:grid;gap:6px;padding:12px;border-bottom:1px solid var(--rule)}
+  table.stack tr:last-child{border-bottom:none}
+  table.stack td{display:block;padding:0;border:none}
+  table.stack td.n{white-space:normal}
+  table.stack td.q{font-weight:600}
+  table.stack td[data-l]::before{content:attr(data-l);display:block;font-family:var(--mono);font-size:11.5px;font-weight:400;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  table.stack.rods tr{grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:6px 12px}
+  table.stack.rods td.w,table.stack.rods td.sc{grid-column:1/-1}
+  table.stack.rods tr.cut{border-bottom:2px solid var(--ink)}
+}
+@media (prefers-reduced-motion: reduce){ .swap .after,.swap .before{transition:none} }
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">Chain Theory for Physicists · a model to handle · status as of November 22, 2026</p>
+  <h1>Chain Theory Building Set</h1>
+  <p class="lead">Chain Theory, an unproven research program announced by Alex Wissner-Gross in October 2026, says that nothing exists but finitely many maximally entangled pairs of small quantum systems, some of them shared. Here that axiom is a construction set: a ball for every quantum system, a rod for every entangled pair, and the theory's own particle networks assembled from its published data.</p>
+</header>
+
+<section class="bench" aria-label="The building set">
+  <div class="chart">
+    <div class="heads" aria-hidden="true"><span>Gen. I</span><span>Gen. II</span><span>Gen. III</span><span>Forces</span><span>Other</span></div>
+    <div class="tiles" id="tiles" role="group" aria-label="Choose a model"></div>
+  </div>
+  <div class="gradebox">
+    <p class="grades"><b><i class="pip theorem"></i>Theorem</b>, proved within the theory's rules. <b><i class="pip conditional"></i>Conditional</b>, proved if steps named beside it hold. <b><i class="pip open"></i>Open</b>, unfinished. <b><i class="pip book"></i>Book</b>, assembled for the book. The first three grades, and the quoted note on each placard, are the theory's own, read from its data file.</p>
+  </div>
+
+  <div class="stagecol">
+    <div class="stage">
+      <div class="frame" id="frame">
+        <svg id="scene" tabindex="0" role="img" aria-label="Ball-and-stick model">
+          <defs>
+            <radialGradient id="g2" cx="34%" cy="30%" r="78%"><stop offset="0" class="s2a"/><stop offset=".5" class="s2b"/><stop offset="1" class="s2c"/></radialGradient>
+            <radialGradient id="g3" cx="34%" cy="30%" r="78%"><stop offset="0" class="s3a"/><stop offset=".5" class="s3b"/><stop offset="1" class="s3c"/></radialGradient>
+            <radialGradient id="g4" cx="34%" cy="30%" r="78%"><stop offset="0" class="s4a"/><stop offset=".5" class="s4b"/><stop offset="1" class="s4c"/></radialGradient>
+          </defs>
+          <g id="layer"></g>
+          <g id="overlay"></g>
+        </svg>
+      </div>
+      <p class="inspect" id="inspect" aria-live="polite"></p>
+      <div class="key">
+        <span><i class="b d2"></i>qubit<em>, two states</em></span>
+        <span><i class="b d3"></i>qutrit<em>, three states</em></span>
+        <span><i class="b d4"></i>hub<em>, four states</em></span>
+        <span><i class="r"></i>clear rod<em>, one look pins it down</em></span>
+        <span><i class="r dk"></i>hidden rod</span>
+        <span><i class="sk"></i>free socket</span>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="b-left" type="button" aria-label="Turn the model left">◀</button>
+      <button class="btn" id="b-right" type="button" aria-label="Turn the model right">▶</button>
+      <button class="btn" id="b-spin" type="button" aria-pressed="false">Spin</button>
+      <button class="btn" id="b-sock" type="button" aria-pressed="true">Free sockets</button>
+      <button class="btn" id="b-reset" type="button">Reset</button>
+    </div>
+  </div>
+
+  <article class="placard" id="placard" aria-live="polite"></article>
+</section>
+
+<section class="sec" id="rules">
+  <div class="tag">The rules</div>
+  <div class="body">
+    <h2>Two rules make it a set</h2>
+    <p>The set has three kinds of ball. A qubit is a quantum system with two basic states and a qutrit has three. A hub is two qubits read as a single piece with four states. A rod is one maximally entangled pair, with a ball at each end. A ball can sit at the end of several rods at once. The theory then carries it as one copy for each rod, so no pair ever has to share its entanglement with a third piece.</p>
+    <div class="pieces">
+      <div class="piece">
+        <svg viewBox="0 0 86 86" aria-hidden="true"><circle class="pc2" cx="43" cy="43" r="24"/><circle class="hole" cx="19" cy="43" r="5"/><circle class="hole" cx="67" cy="43" r="5"/><text class="pcn" x="43" y="51" font-size="23">2</text></svg>
+        <b>Qubit</b><span>two states, two sockets</span>
+      </div>
+      <div class="piece">
+        <svg viewBox="0 0 86 86" aria-hidden="true"><circle class="pc3" cx="43" cy="43" r="27"/><circle class="hole" cx="43" cy="16" r="5"/><circle class="hole" cx="19.6" cy="56.5" r="5"/><circle class="hole" cx="66.4" cy="56.5" r="5"/><text class="pcn" x="43" y="51" font-size="23">3</text></svg>
+        <b>Qutrit</b><span>three states, three sockets</span>
+      </div>
+      <div class="piece">
+        <svg viewBox="0 0 86 86" aria-hidden="true"><circle class="pc4" cx="43" cy="43" r="30"/><circle class="hole" cx="21.8" cy="21.8" r="5"/><circle class="hole" cx="64.2" cy="21.8" r="5"/><circle class="hole" cx="21.8" cy="64.2" r="5"/><circle class="hole" cx="64.2" cy="64.2" r="5"/><text class="pcn" x="43" y="51" font-size="23">4</text></svg>
+        <b>Hub</b><span>two qubits read as one, four sockets</span>
+      </div>
+    </div>
+    <p>The first rule is about sockets. A ball with two, three or four states can end at most two, three or four rods. This is the theory's valence law, a rule its author chose, and it does real work. A qutrit in the electron's triangle spends two sockets on the triangle and has one left. What fills that last socket at each corner is what separates the electron from the muon and the tau.</p>
+    <p>The second rule is about looking. Multiply the numbers on the two balls of a rod. If the product is six or less, a single look, which the theory calls a read, can pin the pair down. If it is more than six, no single look can. The theory's words for the two kinds are readable and dark, and this page calls them clear and hidden. The threshold is established mathematics. By theorems of Størmer, Woronowicz and Choi, six is the largest product for which one standard test decides whether two systems are entangled. The theory joins that fact to its own definition of a read.</p>
+    <div class="tbl"><table id="rodtable" class="stack rods">
+      <thead><tr><th>Rod</th><th>Product</th><th>One look</th><th>Sector assigned</th><th>Where the models use it</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p>The fourth column is the part of physics that the theory takes each kind of rod to correspond to. Its own data file marks these assignments as conjectured. They show in the models: the gluon is a chain of the strong interaction's rods, the photon a chain of electromagnetism's, and the Higgs a single rod of its own kind.</p>
+    <p>A hub with its three qubits, two of them tied to each other, is a cluster that the theory calls a hub assembly. It appears again and again: one of them turns an up quark into a down quark, and one more at each step turns an electron into a muon and a muon into a tau.</p>
+    <p>The hole counts are those of a school molecular model set, where two-hole, three-hole and four-hole balls usually stand for oxygen, nitrogen and carbon. Every model on this page can be built with one, using the short rigid links for clear rods and the long flexible ones for hidden rods. In none of the models here do the clear rods close a ring, so a rigid link never has to bend. This match is the book's illustration and no part of the theory, and the shapes mean nothing: the theory gives its networks no lengths and no angles.</p>
+  </div>
+</section>
+
+<section class="sec" id="rod">
+  <div class="tag">Bench trials</div>
+  <div class="body">
+    <h2>What a rod is</h2>
+    <p>A rod stands for one maximally entangled pair. Three small benches show what that means, using nothing but standard quantum mechanics for the pair.</p>
+    <div class="trials">
+
+      <article class="trial" id="trial-look">
+        <h3>Look at both ends</h3>
+        <figure>
+          <svg viewBox="0 0 320 112" role="img" aria-label="Two qubits joined by one rod. Each shows its latest answer.">
+            <line class="t-rod" x1="82" y1="52" x2="238" y2="52"/>
+            <g transform="translate(56,52)"><circle class="tb2" r="27"/><g class="ans" id="ans-a"></g></g>
+            <g transform="translate(264,52)"><circle class="tb2" r="27"/><g class="ans" id="ans-b"></g></g>
+            <text class="lbl m" x="56" y="104">left end</text><text class="lbl m" x="264" y="104">right end</text>
+          </svg>
+        </figure>
+        <div class="ways">
+          <div class="way"><span id="wl-a">Left looks</span><div class="seg" id="seg-a" role="group" aria-labelledby="wl-a"></div></div>
+          <div class="way"><span id="wl-b">Right looks</span><div class="seg" id="seg-b" role="group" aria-labelledby="wl-b"></div></div>
+        </div>
+        <div class="row">
+          <button class="btn go" id="look-1" type="button">Look once</button>
+          <button class="btn" id="look-100" type="button">Look 100 times</button>
+          <button class="btn" id="look-clear" type="button">Clear</button>
+        </div>
+        <table class="tally" id="tally" aria-label="How often each pair of answers has come up"></table>
+        <p class="sum" id="look-sum" aria-live="polite"></p>
+        <p>Each end is a qubit. The theory counts three ways of looking at a qubit, which can be pictured as three perpendicular directions. Each end alone answers like a tossed coin. When the two ways match, the two answers are always the same. When they differ, one answer says nothing about the other.</p>
+        <p class="note">Simulated from the quantum rule for one maximally entangled pair. The way that matches at the far end is the complex conjugate of the near one, as the theory's Letter spells out.</p>
+      </article>
+
+      <article class="trial" id="trial-distill">
+        <h3>Distill two rods into one</h3>
+        <figure>
+          <svg class="swap" id="swap" viewBox="0 0 320 132" role="img" aria-label="Four qubits in a row, A to D. Before: rods join A to B and C to D. After distilling B with C: rods join B to C and A to D.">
+            <g class="before"><line class="t-rod" x1="62" y1="88" x2="98" y2="88"/><line class="t-rod" x1="222" y1="88" x2="258" y2="88"/><text class="lbl m" x="80" y="126">pair</text><text class="lbl m" x="240" y="126">pair</text></g>
+            <g class="after"><path class="t-rod new" d="M40 66 C 40 6, 280 6, 280 66"/><line class="t-rod new" x1="142" y1="88" x2="178" y2="88"/><rect class="clamp" x="92" y="60" width="136" height="56" rx="8"/><text class="lbl" x="160" y="16">new pair</text><text class="lbl" x="160" y="130">distilled</text></g>
+            <g transform="translate(40,88)"><circle class="tb2" r="21"/><g class="ans"><text y="8">A</text></g></g>
+            <g transform="translate(120,88)"><circle class="tb2" r="21"/><g class="ans"><text y="8">B</text></g></g>
+            <g transform="translate(200,88)"><circle class="tb2" r="21"/><g class="ans"><text y="8">C</text></g></g>
+            <g transform="translate(280,88)"><circle class="tb2" r="21"/><g class="ans"><text y="8">D</text></g></g>
+          </svg>
+        </figure>
+        <div class="row">
+          <button class="btn go" id="distill" type="button" aria-pressed="false">Distill B with C</button>
+        </div>
+        <p class="sum" id="distill-sum" aria-live="polite">Two pairs: A with B, and C with D.</p>
+        <p>The axiom allows one operation, called distilling: two pieces are projected onto a pair. Do that to the inner ends of two rods and the outer ends, which never met, are left as a pair as well. Physicists know this as entanglement swapping. It moves entanglement and adds none.</p>
+        <p class="note">In a laboratory this outcome turns up one time in four for qubits. In the theory the other outcomes are no configuration of the axiom, so the projection is simply the act.</p>
+      </article>
+
+      <article class="trial" id="trial-unlike">
+        <h3>A rod between unlike ends</h3>
+        <figure>
+          <svg viewBox="0 0 320 176" role="img" aria-label="A qubit's two states tied by two strands to two of a qutrit's three states. The third qutrit state is left untied.">
+            <rect class="cap2" x="34" y="20" width="72" height="104" rx="36"/><rect class="cap3" x="214" y="6" width="72" height="144" rx="36"/>
+            <path class="strand" d="M82 48 C 150 48, 170 36, 238 36"/><path class="strand" d="M82 96 C 150 96, 170 78, 238 78"/>
+            <circle class="slot q2" cx="70" cy="48" r="12"/><circle class="slot q2" cx="70" cy="96" r="12"/>
+            <circle class="slot q3" cx="250" cy="36" r="12"/><circle class="slot q3" cx="250" cy="78" r="12"/><circle class="slot q3" cx="250" cy="120" r="12"/>
+            <text class="lbl" x="160" y="30">charge +⅔</text><text class="lbl" x="160" y="106">charge −⅓</text>
+            <text class="lbl m" x="228" y="124" style="text-anchor:end">left untied</text>
+            <text class="lbl m" x="70" y="144">qubit</text><text class="lbl m" x="250" y="170">qutrit</text>
+          </svg>
+        </figure>
+        <p>A qutrit has one state more than a qubit, so a rod between them ties the qubit's two states to two of the qutrit's three and leaves the third untied. Count the ways of relabeling the states at the two ends, three at one and two at the other, with one phase between them. Together they form the symmetry group behind the Standard Model's three forces, in one of the four forms that the known particles allow, and the two tied strands carry the electric charges of an up quark and a down quark.</p>
+        <p class="note">That much is established group theory. That nature's forces arise this way is the theory's conjecture.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="number">
+  <div class="tag">The one number</div>
+  <div class="body">
+    <h2>A count that lands on 137</h2>
+    <p>The theory's best-known result is a number. Take one qutrit with three rods to three qubits. Read two of the rods and leave the third unread. The theory calls this arrangement the fine-structure star, and it counts the ways the two reads can pass through it. There are 172, which it calls records. They fall into four groups, and each record enters the sum with the square root of the product of the ends it passes.</p>
+    <div class="number">
+      <div class="star">
+        <figure>
+          <svg viewBox="0 0 300 196" role="img" aria-label="The fine-structure star: one qutrit joined to three qubits. Two rods are read and the third is held unread.">
+            <line class="t-rod new" x1="131" y1="92" x2="72" y2="52"/><line class="t-rod new" x1="169" y1="92" x2="228" y2="52"/><line class="t-rod" x1="150" y1="130" x2="150" y2="152"/>
+            <g transform="translate(150,106)"><circle class="tb3" r="24"/><g class="ans"><text y="8">3</text></g></g>
+            <g transform="translate(56,42)"><circle class="tb2" r="19"/><g class="ans"><text y="8">2</text></g></g>
+            <g transform="translate(244,42)"><circle class="tb2" r="19"/><g class="ans"><text y="8">2</text></g></g>
+            <g transform="translate(150,172)"><circle class="tb2" r="19"/><g class="ans"><text y="8">2</text></g></g>
+            <text class="lbl" x="92" y="92">read</text><text class="lbl" x="208" y="92">read</text><text class="lbl m" x="216" y="150">held, unread</text>
+          </svg>
+          <figcaption>The fine-structure star. All three rods join a qutrit to a qubit, the one kind of rod that is both clear and unlike at its ends.</figcaption>
+        </figure>
+      </div>
+      <div class="count">
+        <figure>
+          <div class="waffle" id="waffle" role="img" aria-label="The 172 records in four groups of 79, 48, 42 and 3."></div>
+          <figcaption>Every square is one record. The darker the group, the more each record weighs.</figcaption>
+        </figure>
+        <p class="sumline" id="sumline"></p>
+        <p class="note">The divisor 31,104 is the size of the space the two reads are taken over: 24 from the rod left unread and 36 from each rod that is read.</p>
+      </div>
+      <div class="versus">
+        <figure>
+          <div class="plot" id="plot"></div>
+          <figcaption>Measured values of 1/α with their standard uncertainties, and the theory's candidate as the vertical line. It lies within the margin of the latest official value. Earlier official values and the three most precise single measurements are spread more widely than their own margins.</figcaption>
+        </figure>
+        <details>
+          <summary>Show the numbers</summary>
+          <div class="tbl"><table id="plottable" class="stack"><thead><tr><th>Source</th><th class="keep">Value of 1/α</th><th>Candidate lies</th></tr></thead><tbody></tbody></table></div>
+        </details>
+      </div>
+    </div>
+    <p>The arithmetic is exact and has been checked by machine. What it means is not settled. The theory conjectures that this kind of rod is the elementary link of light and that the number is therefore the inverse of the fine-structure constant α, which sets the strength of electricity and magnetism. The match with the 2022 official value runs to ten digits, and newer measurements will show whether it holds.</p>
+  </div>
+</section>
+
+<section class="sec" id="limits">
+  <div class="tag">The limits</div>
+  <div class="body">
+    <h2>A set with no ruler and no clock</h2>
+    <p>The models come without lengths, masses or times, and the theory's documents print none in ordinary units. Where its counts are read directly as physical sizes, they miss. The table gives four examples, worked through in Appendix F of the book.</p>
+    <div class="tbl"><table class="stack">
+      <thead><tr><th>Quantity</th><th>Measured</th><th>From the set</th></tr></thead>
+      <tbody>
+        <tr><td class="q">Proton's mass, in electron masses</td><td class="n" data-l="Measured">1,836.15</td><td data-l="From the set">No value. In the theory's own words it stands outside the comparison by orders at every reading the construction has produced.</td></tr>
+        <tr><td class="q">Neutron heavier than the proton by</td><td class="n" data-l="Measured">0.138 percent</td><td data-l="From the set">47 percent, if the two networks' counts are read directly as masses</td></tr>
+        <tr><td class="q">Binding energy of hydrogen's lowest level, as a share of the electron's rest energy</td><td class="n" data-l="Measured">2.66 × 10⁻⁵</td><td data-l="From the set">1.74 × 10⁻¹⁴ read directly, though the ladder's whole-number pattern is right</td></tr>
+        <tr><td class="q">Neutron's mean life</td><td class="n" data-l="Measured">878 seconds</td><td data-l="From the set">No clock. One reading has the neutron decay and another has it last forever.</td></tr>
+      </tbody>
+    </table></div>
+    <p>So the models are best taken as a picture of what the theory claims and of what it still owes. On counts and patterns they do well, though mostly through results the theory itself marks as conditional: two polarizations of light, whole electric charges built from thirds, a neutral neutron, three generations. A finished theory would have to turn the same counts into the measured numbers.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Sources. A. D. Wissner-Gross, <i>Chain Theory: Toward Fundamental Physics from Distilling Networks of Entangled Qudits</i>, compendium release 0.1, and the Letter “A Parameter-Free Candidate for the Fine-Structure Constant from Entangled Qudits”, both at <a href="https://github.com/alexwg/chain-theory">github.com/alexwg/chain-theory</a>, commit a28db89, used under the repository's licenses (CC BY 4.0 for text, Apache 2.0 for code) and unchanged as of November 22, 2026. The networks come from compendium/figures/particles.json, the sectors from compendium/figures/genres.json and the records from papers/alpha/anc/records.csv. The neutron and the star form of the proton come from Appendix F of <i>Chain Theory for Physicists</i>.</p>
+  <p>Measured values of 1/α: the CODATA adjustments of 2010, 2014, 2018 and 2022; Parker and others, Science 360, 191 (2018); Morel and others, Nature 588, 61 (2020); Fan and others, Physical Review Letters 130, 071801 (2023). The shapes of the models are computed by a spring model and carry no physical content.</p>
+</footer>
+
+</div>
+
+<script>
+(() => {
+'use strict';
+const DATA = {"commit":"a28db89","checked":"2026-11-22","phys":{"L":1.0,"ks":1.0,"kr":0.22},"radius":{"2":0.28,"3":0.34,"4":0.4},"cap":6,"grades":"Each particle's grade is the weakest grade among the compendium results its web rests on, read from its standing line: theorem, conditional (a conditional theorem), or open (an open result). The grade is that of the result about the web; that the web is the named particle is in every case a conjecture.","models":[{"id":"electron","name":"electron","sym":"e","family":"charged lepton","gen":1,"web":"E_TWODOCK","grade":"conditional","standing":"The lepton ladder as hub assemblies, conditional theorem 152.1: the core triangle with one hub assembly.","source":"particles.json","d":[3,3,3,4,2,2,2,2,2],"p":[[-0.214,-0.0,-0.017],[-1.36,-0.61,0.023],[-1.36,0.61,0.023],[1.235,-0.0,-0.07],[2.15,-0.57,0.597],[2.15,0.57,0.597],[1.763,-0.0,-1.251],[-2.182,-1.574,0.05],[-2.182,1.574,0.05]],"e":[[0,1,0],[1,2,0],[0,2,0],[3,0,0],[3,4,0],[3,5,0],[3,6,0],[4,5,0],[1,7,0],[2,8,0]],"n2":5,"n3":3,"n4":1,"clear":3,"dark":7,"measure":79,"formula":"(3,3)×3, (4,3), (4,2)×3, (2,2), (3,2)×2","free":3,"clear_rods_form_no_ring":true,"ext":2.971},{"id":"muon","name":"muon","sym":"μ","family":"charged lepton","gen":2,"web":"T6-MU-LEAF","grade":"conditional","standing":"The lepton ladder as hub assemblies, conditional theorem 152.1: the core triangle with two hub assemblies.","source":"particles.json","d":[3,3,3,4,4,2,2,2,2,2,2,2,2],"p":[[1.017,0.154,-0.012],[-0.398,0.205,0.118],[0.364,1.241,0.105],[2.433,-0.341,-0.166],[-1.866,-0.22,0.247],[3.195,-1.201,0.399],[3.568,-0.127,0.39],[2.929,-0.512,-1.36],[-2.319,-1.158,0.989],[-2.592,-0.095,1.295],[-2.898,-0.217,-0.699],[-3.894,-0.248,-1.476],[0.46,2.519,0.17]],"e":[[0,1,0],[1,2,0],[0,2,0],[3,0,0],[3,5,0],[3,6,0],[3,7,0],[5,6,0],[4,1,0],[4,8,0],[4,9,0],[4,10,0],[8,9,0],[12,2,0],[11,10,0]],"n2":8,"n3":3,"n4":2,"clear":4,"dark":11,"measure":117,"formula":"(3,3)×3, (4,3)×2, (4,2)×6, (2,2)×3, (3,2)","free":3,"clear_rods_form_no_ring":true,"ext":4.452},{"id":"tau","name":"tau","sym":"τ","family":"charged lepton","gen":3,"web":"T6-TAU-LL","grade":"theorem","standing":"The tau as the third hub on the triangle core, theorem 154.1.","source":"particles.json","d":[3,3,3,4,4,4,2,2,2,2,2,2,2,2,2,2,2],"p":[[0.001,1.013,-0.021],[0.702,-0.189,-0.096],[-0.703,-0.184,0.088],[0.003,2.574,-0.047],[2.095,-0.945,-0.284],[-2.099,-0.93,0.296],[-0.477,3.564,0.633],[0.646,3.56,0.49],[-0.137,3.256,-1.162],[2.924,-0.849,-1.268],[2.398,-1.849,-1.152],[3.117,-1.381,0.606],[-2.403,-1.817,1.181],[-2.923,-0.812,1.281],[-3.127,-1.377,-0.582],[4.094,-1.814,1.299],[-4.109,-1.818,-1.264]],"e":[[0,1,0],[1,2,0],[0,2,0],[3,0,0],[3,6,0],[3,7,0],[3,8,0],[6,7,0],[4,1,0],[4,9,0],[4,10,0],[4,11,0],[9,10,0],[5,2,0],[5,12,0],[5,13,0],[5,14,0],[12,13,0],[15,11,0],[16,14,0]],"n2":11,"n3":3,"n4":3,"clear":5,"dark":15,"measure":155,"formula":"(3,3)×3, (4,3)×3, (4,2)×9, (2,2)×5","free":3,"clear_rods_form_no_ring":true,"ext":4.947},{"id":"neutrino-1","name":"neutrino","sym":"ν₁","family":"neutrino","gen":1,"web":"CROSS-CORE-N0","grade":"open","standing":"The cross-core body at depth one. Its reading as a neutrino is open; the neutral sinks census is conditional theorem 162.2, and the other candidate webs are open.","source":"particles.json","d":[4,2,2,2,2],"p":[[0.121,0.0,0.0],[-0.97,0.0,-0.575],[-0.97,-0.0,0.575],[0.909,0.986,0.0],[0.909,-0.986,-0.0]],"e":[[0,1,0],[0,2,0],[1,2,0],[0,3,0],[0,4,0]],"n2":4,"n3":0,"n4":1,"clear":1,"dark":4,"measure":36,"formula":"(4,2)×4, (2,2)","free":2,"clear_rods_form_no_ring":true,"ext":1.621},{"id":"neutrino-2","name":"neutrino","sym":"ν₂","family":"neutrino","gen":2,"web":"CROSS-CORE-N1","grade":"open","standing":"The cross-core body at depth two; standing as for the first.","source":"particles.json","d":[4,2,2,2,4,2,2,2,2,2],"p":[[-1.732,0.103,0.066],[-2.712,-0.417,-0.546],[-2.57,0.709,-0.664],[-0.306,-0.078,0.029],[1.127,-0.288,-0.003],[1.69,-1.27,0.566],[1.664,-1.283,-0.576],[2.081,0.701,-0.037],[-2.253,0.284,1.233],[3.011,1.54,-0.068]],"e":[[0,1,0],[0,2,0],[1,2,0],[0,3,0],[3,4,0],[4,5,0],[4,6,0],[4,7,0],[5,6,0],[0,8,0],[7,9,0]],"n2":8,"n3":0,"n4":2,"clear":3,"dark":8,"measure":76,"formula":"(4,2)×8, (2,2)×3","free":2,"clear_rods_form_no_ring":true,"ext":3.662},{"id":"neutrino-3","name":"neutrino","sym":"ν₃","family":"neutrino","gen":3,"web":"CROSS-CORE-N2","grade":"open","standing":"The cross-core body at depth three; standing as for the first.","source":"particles.json","d":[4,2,2,2,4,2,2,2,2,4,2,2,2,2,2],"p":[[-0.0,0.598,0.0],[0.046,1.733,0.57],[-0.046,1.733,-0.57],[1.451,0.109,-0.122],[2.898,-0.308,-0.267],[3.302,-1.38,-0.826],[3.526,-0.404,-1.373],[4.0,-0.094,0.563],[-1.451,0.109,0.122],[-2.898,-0.308,0.267],[-3.302,-1.38,0.826],[-3.526,-0.404,1.373],[-4.0,-0.094,-0.563],[5.061,0.046,1.233],[-5.061,0.046,-1.233]],"e":[[0,1,0],[0,2,0],[1,2,0],[0,3,0],[3,4,0],[4,5,0],[4,6,0],[4,7,0],[5,6,0],[0,8,0],[8,9,0],[9,10,0],[9,11,0],[9,12,0],[10,11,0],[7,13,0],[12,14,0]],"n2":12,"n3":0,"n4":3,"clear":5,"dark":12,"measure":116,"formula":"(4,2)×12, (2,2)×5","free":2,"clear_rods_form_no_ring":true,"ext":5.489},{"id":"up","name":"up quark","sym":"u","family":"up-type quark","gen":1,"web":"U_DOCKED","grade":"conditional","standing":"Flavor as the rung name and the quark ladder, conditional theorem 181.2.","source":"particles.json","d":[2,3,2],"p":[[-1.193,0.0,0.0],[0.0,-0.0,0.0],[1.193,0.0,-0.0]],"e":[[1,2,0],[1,0,0]],"n2":2,"n3":1,"n4":0,"clear":2,"dark":0,"measure":12,"formula":"(3,2)×2","free":3,"clear_rods_form_no_ring":true,"ext":1.473},{"id":"down","name":"down quark","sym":"d","family":"down-type quark","gen":1,"web":"D_DOCKED","grade":"conditional","standing":"The quark ladder, conditional theorems 181.2 and 181.4.","source":"particles.json","d":[4,2,3,2,2,2,2],"p":[[-0.531,0.088,0.0],[1.729,-0.107,-0.921],[0.862,-0.034,-0.0],[-1.434,-0.577,-0.572],[-1.434,-0.577,0.572],[-0.921,1.312,0.0],[1.729,-0.107,0.921]],"e":[[2,6,0],[2,0,0],[0,3,0],[0,4,0],[0,5,0],[3,4,0],[2,1,0]],"n2":5,"n3":1,"n4":1,"clear":3,"dark":4,"measure":52,"formula":"(4,3), (4,2)×3, (2,2), (3,2)×2","free":3,"clear_rods_form_no_ring":true,"ext":2.242},{"id":"charm","name":"charm quark","sym":"c","family":"up-type quark","gen":2,"web":"C_DOCKED","grade":"conditional","standing":"The quark ladder, conditional theorems 181.2 and 181.4.","source":"particles.json","d":[4,2,3,2,2,2],"p":[[-0.313,-0.104,0.0],[2.226,0.231,-0.0],[1.003,0.072,0.0],[-1.182,0.577,0.573],[-1.182,0.577,-0.573],[-0.551,-1.354,0.0]],"e":[[2,0,0],[0,3,0],[0,4,0],[0,5,0],[3,4,0],[2,1,0]],"n2":4,"n3":1,"n4":1,"clear":2,"dark":4,"measure":46,"formula":"(4,3), (4,2)×3, (2,2), (3,2)","free":3,"clear_rods_form_no_ring":true,"ext":2.518},{"id":"strange","name":"strange quark","sym":"s","family":"down-type quark","gen":2,"web":"S_DOCKED","grade":"conditional","standing":"The quark ladder, conditional theorems 181.2 and 181.4.","source":"particles.json","d":[4,4,2,3,2,2,2,2,2,2],"p":[[-1.438,0.078,-0.083],[1.438,-0.078,-0.083],[0.0,-0.0,1.586],[0.0,-0.0,0.3],[-2.214,-0.529,-0.894],[-2.499,-0.573,0.207],[-1.984,1.255,-0.174],[2.499,0.573,0.207],[2.214,0.529,-0.894],[1.984,-1.255,-0.174]],"e":[[3,0,0],[0,4,0],[0,5,0],[0,6,0],[4,5,0],[3,1,0],[1,7,0],[1,8,0],[1,9,0],[7,8,0],[3,2,0]],"n2":7,"n3":1,"n4":2,"clear":3,"dark":8,"measure":86,"formula":"(4,3)×2, (4,2)×6, (2,2)×2, (3,2)","free":3,"clear_rods_form_no_ring":true,"ext":2.852},{"id":"top","name":"top quark","sym":"t","family":"up-type quark","gen":3,"web":"TA_DOCKED","grade":"conditional","standing":"The quark ladder, conditional theorems 181.2 and 181.4.","source":"particles.json","d":[4,4,2,3,2,2,2,2,2],"p":[[-0.446,0.292,0.002],[0.988,-0.116,0.067],[-2.545,-1.305,-0.075],[-1.526,-0.573,-0.038],[-0.879,1.334,-0.593],[-0.917,1.345,0.547],[1.493,-0.384,1.236],[1.761,-0.84,-0.644],[2.072,0.246,-0.503]],"e":[[3,0,0],[0,4,0],[0,5,0],[4,5,0],[0,1,0],[1,6,0],[1,7,0],[1,8,0],[7,8,0],[3,2,0]],"n2":6,"n3":1,"n4":2,"clear":3,"dark":7,"measure":82,"formula":"(4,4), (4,3), (4,2)×5, (2,2)×2, (3,2)","free":3,"clear_rods_form_no_ring":true,"ext":3.141},{"id":"bottom","name":"bottom quark","sym":"b","family":"down-type quark","gen":3,"web":"BA_DOCKED","grade":"conditional","standing":"The quark ladder, conditional theorems 181.2 and 181.4.","source":"particles.json","d":[4,4,4,2,3,2,2,2,2,2,2,2,2],"p":[[-2.295,-0.124,-0.061],[0.718,0.403,-0.035],[2.127,-0.295,-0.095],[-0.908,-0.287,1.52],[-0.8,0.038,0.277],[-3.024,-0.608,-1.004],[-3.197,-1.04,0.032],[-3.153,0.835,0.199],[0.941,1.637,0.26],[0.797,1.401,-0.844],[2.54,-0.935,-1.167],[2.902,-0.986,0.675],[3.352,-0.039,0.244]],"e":[[4,0,0],[0,5,0],[0,6,0],[0,7,0],[5,6,0],[4,1,0],[1,8,0],[1,9,0],[8,9,0],[1,2,0],[2,10,0],[2,11,0],[2,12,0],[11,12,0],[4,3,0]],"n2":9,"n3":1,"n4":3,"clear":4,"dark":11,"measure":122,"formula":"(4,4), (4,3)×2, (4,2)×8, (2,2)×3, (3,2)","free":3,"clear_rods_form_no_ring":true,"ext":3.642},{"id":"photon","name":"photon","sym":"γ","family":"gauge boson","gen":0,"web":"r-GAM","grade":"conditional","standing":"The photon word. The (2,3) open link as the photon is theorem 134.1; the photon docks at both faces, conditional theorem 150.1.","source":"particles.json","d":[2,3,2,3,2,3],"p":[[-3.114,0.0,0.0],[-1.899,-0.0,-0.0],[-0.637,-0.0,-0.0],[0.637,-0.0,0.0],[1.899,0.0,0.0],[3.114,0.0,-0.0]],"e":[[0,1,0],[1,2,0],[2,3,0],[3,4,0],[4,5,0]],"n2":3,"n3":3,"n4":0,"clear":5,"dark":0,"measure":30,"formula":"(3,2)×5","free":5,"clear_rods_form_no_ring":true,"ext":3.454},{"id":"proton","name":"proton","sym":"p","family":"composite","gen":0,"web":"PROTON-SINK-NAMED","grade":"open","standing":"The proton as a seeded sink: the seeded saturation is open result 175.1 and the joined read at the roster stars conditional theorem 175.2. Its quark content, two ups and a down, is a reading of its three docks and is not derived.","source":"particles.json","d":[4,3,3,3,3,2,2,2],"p":[[-0.0,-0.0,0.568],[-0.0,-0.0,-0.568],[-1.131,-0.197,0.0],[0.736,-0.881,0.0],[0.395,1.078,0.0],[-2.382,-0.414,-0.0],[1.549,-1.856,-0.0],[0.832,2.27,-0.0]],"e":[[0,2,0],[0,3,0],[0,4,0],[1,2,0],[1,3,0],[1,4,0],[2,5,0],[3,6,0],[4,7,0]],"n2":3,"n3":4,"n4":1,"clear":3,"dark":6,"measure":81,"formula":"(3,3)×3, (4,3)×3, (3,2)×3","free":4,"clear_rods_form_no_ring":true,"ext":2.698},{"id":"hydrogen","name":"hydrogen","sym":"H atom","family":"composite","gen":0,"web":"SEED-EP2S1","grade":"conditional","standing":"The electron web and the proton joined at a shared dock. Hydrogen from the held carrier is conditional theorem 143.1.","source":"particles.json","d":[3,3,3,4,2,2,2,2,2,2,2,3,3,3,3,4],"p":[[-2.509,0.118,0.01],[-1.108,0.349,-0.028],[-1.989,1.267,-0.132],[-3.875,-0.519,0.1],[-4.507,-1.473,-0.474],[-4.993,-0.447,-0.524],[-4.429,-0.698,1.266],[0.38,0.161,-0.013],[-2.259,2.51,-0.279],[4.72,-0.505,-1.832],[4.737,-0.087,1.869],[1.872,-0.0,-0.002],[3.859,-0.311,-0.897],[3.867,-0.105,0.922],[3.171,0.387,-0.052],[3.062,-0.648,0.066]],"e":[[0,1,0],[1,2,0],[0,2,0],[3,0,0],[3,4,0],[3,5,0],[3,6,0],[4,5,0],[1,7,0],[2,8,0],[9,12,0],[10,13,0],[11,14,0],[11,15,0],[12,14,0],[12,15,0],[13,14,0],[13,15,0],[7,11,0]],"n2":7,"n3":7,"n4":2,"clear":6,"dark":13,"measure":160,"formula":"(3,3)×6, (4,3)×4, (4,2)×3, (2,2), (3,2)×5","free":5,"clear_rods_form_no_ring":true,"ext":5.373,"shared":7},{"id":"w-boson","name":"W boson","sym":"W","family":"gauge boson","gen":0,"web":"r-WPM","grade":"open","standing":"The W word, read along one line (heavy). The W word as the passage web of the cross read is open result 159.2.","source":"particles.json","d":[4,2,3,2,4],"p":[[-2.464,-0.0,0.0],[-1.252,0.0,-0.0],[-0.0,0.0,-0.0],[1.252,0.0,0.0],[2.464,-0.0,-0.0]],"e":[[0,1,0],[1,2,1],[2,3,0],[3,4,0]],"n2":2,"n3":1,"n4":2,"clear":2,"dark":2,"measure":28,"formula":"(4,2)×2, (3,2)×2","free":7,"clear_rods_form_no_ring":true,"ext":2.864},{"id":"z-boson","name":"Z boson","sym":"Z","family":"gauge boson","gen":0,"web":"r-Z0D","grade":"open","standing":"The same web as the W, read along two lines (heavy): open result 159.1. The ratio of the two offices is 1/2, conditional theorem 164.5; the W over Z mass ratio is open result 160.1.","source":"particles.json","d":[4,2,3,2,4],"p":[[-2.464,-0.0,-0.0],[-1.252,0.0,0.0],[-0.0,-0.0,-0.0],[1.252,-0.0,0.0],[2.464,0.0,-0.0]],"e":[[0,1,0],[1,2,1],[2,3,1],[3,4,0]],"n2":2,"n3":1,"n4":2,"clear":2,"dark":2,"measure":28,"formula":"(4,2)×2, (3,2)×2","free":7,"clear_rods_form_no_ring":true,"ext":2.864},{"id":"gluon","name":"gluon","sym":"g","family":"gauge boson","gen":0,"web":"r-GLU","grade":"conditional","standing":"The gluon word. The strong coupling as the gluon pair-ket office is conditional theorem 149.1.","source":"particles.json","d":[3,3,3,3],"p":[[-1.822,-0.0,0.0],[-0.617,0.0,-0.0],[0.617,0.0,0.0],[1.822,-0.0,-0.0]],"e":[[0,1,0],[1,2,0],[2,3,0]],"n2":0,"n3":4,"n4":0,"clear":0,"dark":3,"measure":27,"formula":"(3,3)×3","free":6,"clear_rods_form_no_ring":true,"ext":2.162},{"id":"higgs","name":"Higgs","sym":"H","family":"scalar boson","gen":0,"web":"r-HIG","grade":"conditional","standing":"The Higgs as the closed hub read, conditional theorem 200.1.","source":"particles.json","d":[4,4],"p":[[-0.581,0.0,0.0],[0.581,0.0,0.0]],"e":[[0,1,0]],"n2":0,"n3":0,"n4":2,"clear":0,"dark":1,"measure":16,"formula":"(4,4)","free":6,"clear_rods_form_no_ring":true,"ext":0.981},{"id":"proton-star","name":"proton","sym":"p","family":"composite","gen":0,"web":"star, arms u, u, d","grade":"conditional","standing":"From Appendix F of the book: the star with arms up, up and down, and its register, are the theory's conditional theorems 174.1 and 174.2. The drawing was made for the book from the arms the theory records.","source":"Appendix F, from the compendium's recorded arms","d":[3,3,2,3,2,3,2,4,2,2,2],"p":[[-1.062,-0.006,0.026],[-1.921,-1.059,-0.101],[-2.744,-1.998,-0.212],[-1.957,1.008,-0.158],[-2.812,1.911,-0.321],[0.392,0.027,0.322],[0.445,0.037,1.604],[1.82,0.058,-0.115],[2.875,-0.623,0.135],[2.552,-0.566,-0.954],[2.413,1.211,-0.226]],"e":[[0,1,0],[1,2,0],[0,3,0],[3,4,0],[0,5,0],[5,6,0],[5,7,0],[7,8,0],[7,9,0],[7,10,0],[8,9,0]],"n2":6,"n3":4,"n4":1,"clear":4,"dark":7,"measure":85,"formula":"(3,3)×3, (4,3), (4,2)×3, (2,2), (3,2)×3","free":6,"clear_rods_form_no_ring":true,"ext":3.695},{"id":"neutron","name":"neutron","sym":"n","family":"composite","gen":0,"web":"star, arms u, d, d","grade":"book","standing":"From Appendix F of the book: assembled from the arms that the theory's Lean files record for the neutron, an up quark and two down quarks at a central qutrit. It matches the counts the theory prints and obeys the socket rule.","source":"Appendix F, from the compendium's recorded arms","d":[3,3,2,3,2,4,2,2,2,3,2,4,2,2,2],"p":[[0.002,0.417,-0.01],[0.017,1.807,-0.054],[0.031,3.076,-0.096],[-1.476,-0.054,0.285],[-1.544,-0.354,1.533],[-2.956,-0.357,-0.041],[-3.767,-1.357,0.042],[-3.655,-0.884,-0.984],[-3.91,0.495,0.25],[1.469,-0.101,-0.274],[1.552,-0.406,-1.52],[2.93,-0.456,0.084],[3.926,0.054,0.722],[4.113,-0.205,-0.367],[3.268,-1.674,0.429]],"e":[[0,1,0],[1,2,0],[0,3,0],[3,4,0],[3,5,0],[5,6,0],[5,7,0],[5,8,0],[6,7,0],[0,9,0],[9,10,0],[9,11,0],[11,12,0],[11,13,0],[11,14,0],[12,13,0]],"n2":9,"n3":4,"n4":2,"clear":5,"dark":11,"measure":125,"formula":"(3,3)×3, (4,3)×2, (4,2)×6, (2,2)×2, (3,2)×3","free":6,"clear_rods_form_no_ring":true,"ext":4.415}],"rods":[[2,2,"spacetime"],[3,2,"electromagnetism"],[4,2,"weak interaction"],[3,3,"strong interaction"],[4,3,"Yukawa sector"],[4,4,"Higgs"]],"alpha":{"records":172,"groups":[[1,79],[2,48],[3,42],[6,3]],"N":31104,"numerator":226.97685414,"inverse":"137.035999189566"}};
+const NS = 'http://www.w3.org/2000/svg';
+const $ = (s, r) => (r || document).querySelector(s);
+const svgEl = (tag, attrs, parent) => {
+  const e = document.createElementNS(NS, tag);
+  if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+const M = {};
+DATA.models.forEach(m => { M[m.id] = m; });
+const RAD = {2: DATA.radius['2'], 3: DATA.radius['3'], 4: DATA.radius['4']};
+const CAP = DATA.cap;
+const KIND = {2: 'qubit', 3: 'qutrit', 4: 'hub'};
+const WORD = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven'];
+const GRADE = {theorem: 'Theorem', conditional: 'Conditional theorem', open: 'Open result', book: 'Built for the book'};
+const GEN = {1: 'first generation', 2: 'second generation', 3: 'third generation'};
+const cap1 = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* ---------- what the placard says about each model: structure only, checked against the data file ---------- */
+const COPY = {
+  'up': {noun: 'up quark', sym: 'u', nm: 'up', title: 'Up quark', text: "One qutrit with a loose qubit on either side. It is the smallest of the quark and lepton networks, a chain of qubit, qutrit and qubit in the literal sense of the theory's name. Both of its rods are clear."},
+  'charm': {noun: 'charm quark', sym: 'c', nm: 'charm', title: 'Charm quark', text: 'The up quark with one of its loose qubits replaced by a hub cluster: a hub with three qubits, two of them tied to each other.'},
+  'top': {noun: 'top quark', sym: 't', nm: 'top', title: 'Top quark', text: 'One qutrit, one loose qubit and a chain of two hubs. The hubs are tied to each other by the largest kind of rod, four states at each end.'},
+  'gluon': {noun: 'gluon', sym: 'g', nm: 'gluon', title: 'Gluon', text: 'Four qutrits in a row. Every rod joins a qutrit to a qutrit, so all three are hidden.'},
+  'higgs': {noun: 'Higgs boson', sym: 'H', nm: 'Higgs', title: 'Higgs', text: 'Two hubs and the single rod between them, four states at each end. It is the largest kind of rod, and a hidden one.'},
+  'down': {noun: 'down quark', sym: 'd', nm: 'down', title: 'Down quark', text: "The up quark with one hub cluster added at its qutrit, which fills the qutrit's third socket. That one cluster is all that separates the two."},
+  'strange': {noun: 'strange quark', sym: 's', nm: 'strange', title: 'Strange quark', text: 'The down quark with one of its loose qubits replaced by a second hub cluster.'},
+  'bottom': {noun: 'bottom quark', sym: 'b', nm: 'bottom', title: 'Bottom quark', text: 'One qutrit, one loose qubit and three hubs. Two of the hubs are tied to each other in a chain, as in the top quark.'},
+  'photon': {noun: 'photon', sym: 'γ', nm: 'photon', title: 'Photon', text: "A chain of six balls, qubit and qutrit in turn. All five rods are of one kind, a qutrit tied to a qubit, and all five are clear. The same kind of rod, three of them at one qutrit, is what the theory's best-known number is computed from."},
+  'proton': {noun: 'proton', sym: 'p', nm: 'proton', title: 'Proton', text: 'A central qutrit tied by hidden rods to three more qutrits. Each of those three carries one loose qubit, and a hub ties the three together. The theory reads the three loose ends as two up quarks and a down quark, and notes that this reading is not derived.'},
+  'proton-star': {text: 'The proton drawn as three quarks: a central qutrit with two up quarks and one down quark on its three sockets. Every rod that reaches the center is hidden, which is how the theory reads the fact that quarks are never seen alone.'},
+  'electron': {noun: 'electron', sym: 'e', nm: 'electron', title: 'Electron', text: "Three qutrits in a triangle. One corner carries a hub cluster, and each of the other two ends in one loose qubit. Seven of the ten rods are hidden, which is the theory's account of why experiments find no parts inside an electron."},
+  'muon': {noun: 'muon', sym: 'μ', nm: 'muon', title: 'Muon', text: 'The electron with a second hub cluster at another corner of the triangle. The loose qubit that sat there stays on, tied to the new cluster.'},
+  'tau': {noun: 'tau', sym: 'τ', nm: 'tau', title: 'Tau', text: 'A hub cluster at all three corners. Every socket of the triangle is now in use, and the theory reads that as the reason matter comes in three generations and no more.'},
+  'z-boson': {noun: 'Z boson', sym: 'Z', nm: 'Z boson', title: 'Z boson', text: 'The same five-ball chain as the W boson. The theory tells the two apart by how the chain is read: along one of the middle rods for the W, along both for the Z. The read rods have a colored edge.'},
+  'neutron': {noun: 'neutron', sym: 'n', nm: 'neutron', title: 'Neutron', text: "The proton's three-quark star with one up quark exchanged for a down quark, which adds exactly one hub cluster."},
+  'neutrino-1': {noun: 'first neutrino', sym: 'ν<sub>1</sub>', nm: 'neutrino', title: 'Neutrino', text: "One hub with four qubits, two of them tied to each other. The theory's neutrino networks contain no qutrit at all, and its documents grade their reading as neutrinos unfinished."},
+  'neutrino-2': {noun: 'second neutrino', sym: 'ν<sub>2</sub>', nm: 'neutrino', title: 'Neutrino', text: 'Two hubs joined through a qubit that they share. Again there is no qutrit.'},
+  'neutrino-3': {noun: 'third neutrino', sym: 'ν<sub>3</sub>', nm: 'neutrino', title: 'Neutrino', text: 'Three hubs. The outer two are each joined to the middle one through a shared qubit.'},
+  'w-boson': {noun: 'W boson', sym: 'W', nm: 'W boson', title: 'W boson', text: "A chain of five: hub, qubit, qutrit, qubit, hub. The theory's drawing marks one of the two middle rods as the one that is read, shown here with a colored edge."},
+  'hydrogen': {noun: 'hydrogen atom', sym: '<sup>1</sup>H', nm: 'hydrogen', title: 'Hydrogen atom', text: "The electron's network and the proton's, plugged into the two sockets of one shared qubit, which is ringed. The proton appears in its cataloged form."}
+};
+const CHART = ['up', 'charm', 'top', 'gluon', 'higgs', 'down', 'strange', 'bottom', 'photon', 'proton', 'electron', 'muon', 'tau', 'z-boson', 'neutron', 'neutrino-1', 'neutrino-2', 'neutrino-3', 'w-boson', 'hydrogen'];
+const HINT = 'Drag the model sideways to turn it. Pull on a ball. Tap a rod to try to look at it.';
+
+/* ---------- small vector and matrix helpers ---------- */
+const mul = (A, B) => {
+  const C = new Array(9);
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) C[i * 3 + j] = A[i * 3] * B[j] + A[i * 3 + 1] * B[3 + j] + A[i * 3 + 2] * B[6 + j];
+  return C;
+};
+const rotY = a => [Math.cos(a), 0, Math.sin(a), 0, 1, 0, -Math.sin(a), 0, Math.cos(a)];
+const rotX = b => [1, 0, 0, 0, Math.cos(b), -Math.sin(b), 0, Math.sin(b), Math.cos(b)];
+const apply = (R, p) => [R[0] * p[0] + R[1] * p[1] + R[2] * p[2], R[3] * p[0] + R[4] * p[1] + R[5] * p[2], R[6] * p[0] + R[7] * p[1] + R[8] * p[2]];
+const applyT = (R, v) => [R[0] * v[0] + R[3] * v[1] + R[6] * v[2], R[1] * v[0] + R[4] * v[1] + R[7] * v[2], R[2] * v[0] + R[5] * v[1] + R[8] * v[2]];
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const norm = a => Math.hypot(a[0], a[1], a[2]);
+const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
+const ortho = R => {            // keep the turning matrix a pure rotation
+  let a = [R[0], R[1], R[2]], b = [R[3], R[4], R[5]];
+  const la = norm(a); a = a.map(c => c / la);
+  const d = a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; b = [b[0] - d * a[0], b[1] - d * a[1], b[2] - d * a[2]];
+  const lb = norm(b); b = b.map(c => c / lb);
+  const c = cross(a, b);
+  return [a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2]];
+};
+const R0 = mul(rotX(0.26), rotY(-0.42));
+
+/* ---------- the stage ---------- */
+const scene = $('#scene'), layer = $('#layer'), overlay = $('#overlay'), inspect = $('#inspect');
+const reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+const S = {model: null, tile: 'electron', protonForm: 'catalog', P: [], V: [], adj: [], view: [], R: R0.slice(), W: 0, H: 0, scale: 60, D: 8, yc: 0, cx: 0, cy: 0,
+           items: [], orderKey: '', sel: null, drag: null, spin: !reduce, active: false, still: 0, raf: 0, last: 0};
+const PHYS = DATA.phys, DT = 0.11, DAMP = 0.92, STEPS = 3;
+
+function setModel(id) {
+  const m = M[id];
+  S.model = m;
+  S.P = m.p.map(p => p.slice());
+  S.V = m.p.map(() => [0, 0, 0]);
+  S.adj = m.d.map(() => []);
+  m.e.forEach(([a, b]) => { S.adj[a].push(b); S.adj[b].push(a); });
+  S.R = R0.slice(); S.sel = null; S.drag = null; S.active = false;
+  buildScene(); fit(); render();
+  inspect.textContent = HINT;
+}
+
+function buildScene() {
+  const m = S.model;
+  layer.textContent = ''; overlay.textContent = '';
+  S.items = []; S.orderKey = '';
+  m.e.forEach(([a, b, flag], k) => {
+    const clear = m.d[a] * m.d[b] <= CAP;
+    const g = svgEl('g', {'class': 'rod ' + (clear ? 'clear' : 'dark'), 'data-e': k}, layer);
+    const halo = flag ? svgEl('line', {'class': 'halo'}, g) : null;
+    const vis = svgEl('line', {'class': 'vis'}, g);
+    const hit = svgEl('line', {'class': 'hit'}, g);
+    S.items.push({kind: 'rod', key: 'r' + k, k, a, b, g, vis, hit, halo, clear, lines: halo ? [halo, vis, hit] : [vis, hit], z: 0});
+  });
+  m.d.forEach((d, i) => {
+    const free = d - S.adj[i].length;
+    for (let j = 0; j < free; j++) {
+      const g = svgEl('g', {'class': 'sock'}, layer);
+      S.items.push({kind: 'sock', key: 's' + i + '_' + j, i, j, g, line: svgEl('line', null, g), ring: svgEl('circle', null, g), z: 0});
+    }
+  });
+  m.d.forEach((d, i) => {
+    const g = svgEl('g', {'class': 'ball d' + d, 'data-i': i}, layer);
+    const ring = m.shared === i ? svgEl('circle', {'class': 'ring'}, g) : null;
+    const c = svgEl('circle', {'class': 'body'}, g);
+    const fog = svgEl('circle', {'class': 'fog'}, g);
+    const t = svgEl('text', {'class': 'num', dy: '.36em'}, g);
+    t.textContent = d;
+    S.items.push({kind: 'ball', key: 'b' + i, i, g, c, fog, t, ring, z: 0});
+  });
+}
+
+function fit() {
+  const r = scene.getBoundingClientRect();
+  S.W = r.width; S.H = r.height;
+  if (S.model) S.D = Math.max(8, (S.model.ext + 0.30) * 4.4);
+}
+/* The largest scale at which the model stays inside the frame however it is spun about the upright axis.
+   A point at distance q from that axis reaches at most q / sqrt(1 - (q/D)^2) sideways, and is magnified by at most D / (D - q). */
+function fitScale(view) {
+  const m = S.model, D = S.D;
+  let h = 0.1, top = -Infinity, bot = Infinity;
+  for (let i = 0; i < view.length; i++) {
+    const p = view[i], q = Math.min(Math.hypot(p[0], p[2]), 0.8 * D), fm = D / (D - q), fn = D / (D + q), r = RAD[m.d[i]] + 0.30;
+    h = Math.max(h, q / Math.sqrt(1 - (q / D) * (q / D)) + r * fm);
+    const hi = p[1] + r, lo = p[1] - r;         // the highest and lowest this ball can appear during a spin
+    top = Math.max(top, hi * (hi >= 0 ? fm : fn));
+    bot = Math.min(bot, lo * (lo <= 0 ? fm : fn));
+  }
+  S.yc = (top + bot) / 2;                       // the model is centred on its height, not on its centre of mass
+  return Math.min(Math.min(S.W, S.H) / 3.6, (S.W / 2 - 8) / h, (S.H / 2 - 8) / ((top - bot) / 2));
+}
+
+function socketDirs(i) {
+  const m = S.model, P = S.P, p = P[i], nb = S.adj[i];
+  let ax = [0, 0, 0];
+  for (const j of nb) { const d = sub(P[j], p), L = norm(d) || 1; ax[0] -= d[0] / L; ax[1] -= d[1] / L; ax[2] -= d[2] / L; }
+  let L = norm(ax);
+  if (L < 0.25) {                 // neighbours pull in opposite directions: point across them
+    const d = sub(P[nb[0]], p), ld = norm(d) || 1;
+    ax = cross(d, Math.abs(d[2]) < 0.9 * ld ? [0, 0, 1] : [0, 1, 0]); L = norm(ax) || 1;
+  }
+  ax = ax.map(c => c / L);
+  const free = m.d[i] - nb.length;
+  if (free === 1) return [ax];
+  let e1 = cross(ax, Math.abs(ax[2]) < 0.9 ? [0, 0, 1] : [0, 1, 0]);
+  const l1 = norm(e1) || 1; e1 = e1.map(c => c / l1);
+  const e2 = cross(ax, e1), th = free === 2 ? 0.72 : 0.98, out = [];
+  for (let k = 0; k < free; k++) {
+    const ph = 2 * Math.PI * k / free + 0.6, c = Math.cos(th), s = Math.sin(th), cp = Math.cos(ph), sp = Math.sin(ph);
+    out.push([ax[0] * c + (e1[0] * cp + e2[0] * sp) * s, ax[1] * c + (e1[1] * cp + e2[1] * sp) * s, ax[2] * c + (e1[2] * cp + e2[2] * sp) * s]);
+  }
+  return out;
+}
+
+const setLine = (ln, A, B) => { ln.setAttribute('x1', A[0].toFixed(1)); ln.setAttribute('y1', A[1].toFixed(1)); ln.setAttribute('x2', B[0].toFixed(1)); ln.setAttribute('y2', B[1].toFixed(1)); };
+const setCircle = (c, x, y, r) => { c.setAttribute('cx', x.toFixed(1)); c.setAttribute('cy', y.toFixed(1)); c.setAttribute('r', Math.max(0.5, r).toFixed(1)); };
+
+function render() {
+  const m = S.model;
+  if (!m || !S.W) return;
+  const R = S.R, D = S.D;
+  const view = S.view = S.P.map(p => apply(R, p));
+  if (!(S.drag && S.drag.ball >= 0 && S.drag.moved)) S.scale = fitScale(view);   // while a ball is being pulled the scale holds still
+  const s = S.scale, cx = S.cx = S.W / 2, cy = S.cy = S.H / 2 + s * S.yc;
+  let zmin = Infinity, zmax = -Infinity;
+  for (const v of view) { if (v[2] < zmin) zmin = v[2]; if (v[2] > zmax) zmax = v[2]; }
+  const span = Math.max(zmax - zmin, 0.8);
+  const fog = z => clamp(0.30 * (zmax - z) / span, 0, 0.34);
+  const pr = v => { const f = D / (D - v[2]); return [cx + s * f * v[0], cy - s * f * v[1], f]; };
+  const dirs = {};
+  for (const it of S.items) {
+    if (it.kind === 'ball') {
+      const v = view[it.i], q = pr(v), r = s * q[2] * RAD[m.d[it.i]];
+      it.x = q[0]; it.y = q[1]; it.r = r; it.z = v[2];
+      setCircle(it.c, q[0], q[1], r); setCircle(it.fog, q[0], q[1], r);
+      it.fog.setAttribute('opacity', fog(v[2]).toFixed(3));
+      it.t.setAttribute('x', q[0].toFixed(1)); it.t.setAttribute('y', q[1].toFixed(1)); it.t.setAttribute('font-size', (r * 1.22).toFixed(1));
+      if (it.ring) setCircle(it.ring, q[0], q[1], r + 6);
+    } else if (it.kind === 'rod') {
+      const va = view[it.a], vb = view[it.b], d = sub(vb, va), L = norm(d) || 1;
+      const ra = RAD[m.d[it.a]] * 0.9, rb = RAD[m.d[it.b]] * 0.9;
+      const A = pr([va[0] + d[0] / L * ra, va[1] + d[1] / L * ra, va[2] + d[2] / L * ra]);
+      const B = pr([vb[0] - d[0] / L * rb, vb[1] - d[1] / L * rb, vb[2] - d[2] / L * rb]);
+      const w = Math.max(1.6, s * (A[2] + B[2]) / 2 * (it.clear ? 0.085 : 0.07));
+      it.z = (va[2] + vb[2]) / 2; it.mx = (A[0] + B[0]) / 2; it.my = (A[1] + B[1]) / 2;
+      for (const ln of it.lines) setLine(ln, A, B);
+      it.vis.setAttribute('stroke-width', w.toFixed(2));
+      if (!it.clear) it.vis.setAttribute('stroke-dasharray', (w * 1.4).toFixed(1) + ' ' + (w * 1.9).toFixed(1));
+      it.vis.setAttribute('opacity', (1 - fog(it.z)).toFixed(3));
+      if (it.halo) it.halo.setAttribute('stroke-width', (w + 8).toFixed(2));
+    } else {
+      const ds = dirs[it.i] || (dirs[it.i] = socketDirs(it.i)), dir = apply(R, ds[it.j]), v = view[it.i], rad = RAD[m.d[it.i]];
+      const A = pr([v[0] + dir[0] * rad * 0.9, v[1] + dir[1] * rad * 0.9, v[2] + dir[2] * rad * 0.9]);
+      const e = [v[0] + dir[0] * (rad + 0.25), v[1] + dir[1] * (rad + 0.25), v[2] + dir[2] * (rad + 0.25)], B = pr(e);
+      it.z = e[2] - 0.01;
+      setLine(it.line, A, B);
+      it.line.setAttribute('stroke-width', Math.max(1.2, s * B[2] * 0.045).toFixed(2));
+      setCircle(it.ring, B[0], B[1], s * B[2] * 0.062);
+      it.ring.setAttribute('stroke-width', Math.max(1.1, s * B[2] * 0.028).toFixed(2));
+      it.g.setAttribute('opacity', (1 - fog(e[2])).toFixed(3));
+    }
+  }
+  const sorted = S.items.slice().sort((p, q) => p.z - q.z);
+  const key = sorted.map(it => it.key).join(' ');
+  if (key !== S.orderKey) { for (const it of sorted) layer.appendChild(it.g); S.orderKey = key; }
+  drawPill();
+}
+
+function drawPill() {
+  overlay.textContent = '';
+  const sel = S.sel;
+  if (!sel || sel.rod == null) return;
+  const it = S.items.find(q => q.kind === 'rod' && q.k === sel.rod), m = S.model;
+  if (!it) return;
+  const da = Math.max(m.d[it.a], m.d[it.b]), db = Math.min(m.d[it.a], m.d[it.b]);
+  const g = svgEl('g', {'class': 'pill'}, overlay);
+  const rect = svgEl('rect', {rx: 3}, g), t = svgEl('text', null, g);
+  t.textContent = da + ' × ' + db + ' = ' + da * db;
+  const w = 12.5 * 0.62 * t.textContent.length + 16, x = clamp(it.mx, w / 2 + 4, S.W - w / 2 - 4), y = clamp(it.my - 20, 16, S.H - 10);
+  rect.setAttribute('x', (x - w / 2).toFixed(1)); rect.setAttribute('y', (y - 12).toFixed(1)); rect.setAttribute('width', w.toFixed(1)); rect.setAttribute('height', 22);
+  t.setAttribute('x', x.toFixed(1)); t.setAttribute('y', (y + 3.5).toFixed(1));
+}
+
+function physics() {
+  const P = S.P, V = S.V, n = P.length, held = S.drag && S.drag.moved ? S.drag.ball : -1;
+  const F = P.map(() => [0, 0, 0]);
+  for (const [a, b] of S.model.e) {
+    const d = sub(P[b], P[a]), r = norm(d) || 1e-6, f = PHYS.ks * (r - PHYS.L) / r;
+    for (let k = 0; k < 3; k++) { F[a][k] += f * d[k]; F[b][k] -= f * d[k]; }
+  }
+  for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+    const d = sub(P[i], P[j]), r2 = d[0] * d[0] + d[1] * d[1] + d[2] * d[2] + 1e-6, f = PHYS.kr / (r2 * Math.sqrt(r2));
+    for (let k = 0; k < 3; k++) { F[i][k] += f * d[k]; F[j][k] -= f * d[k]; }
+  }
+  let vmax = 0;
+  for (let i = 0; i < n; i++) {
+    if (i === held) { V[i] = [0, 0, 0]; continue; }
+    for (let k = 0; k < 3; k++) { V[i][k] = (V[i][k] + F[i][k] * DT) * DAMP; P[i][k] += V[i][k] * DT; }
+    vmax = Math.max(vmax, Math.abs(V[i][0]), Math.abs(V[i][1]), Math.abs(V[i][2]));
+  }
+  if (held < 0) {                 // let the model drift back to the middle of the stage
+    const c = [0, 0, 0];
+    for (const p of P) { c[0] += p[0] / n; c[1] += p[1] / n; c[2] += p[2] / n; }
+    for (const p of P) { p[0] -= c[0] * 0.06; p[1] -= c[1] * 0.06; p[2] -= c[2] * 0.06; }
+    vmax = Math.max(vmax, norm(c) * 0.06);
+  }
+  return vmax;
+}
+
+function tick(now) {
+  S.raf = 0;
+  const dt = Math.min(0.05, Math.max(0.001, (now - S.last) / 1000));
+  S.last = now;
+  let moving = false;
+  if (S.spin && !S.drag && S.seen) { S.R = ortho(mul(rotY(0.22 * dt), S.R)); moving = true; }
+  if (S.active) {
+    let v = 0;
+    for (let k = 0; k < STEPS; k++) v = physics();
+    const held = S.drag && S.drag.ball >= 0 && S.drag.moved;
+    S.free = held ? 0 : (S.free || 0) + 1;
+    if (!held && (v < 5e-4 || S.free > 900)) { if (++S.still > 20 || S.free > 900) S.active = false; } else S.still = 0;
+    moving = moving || S.active;
+  }
+  render();
+  if (moving || S.drag) S.raf = requestAnimationFrame(tick);
+}
+function kick() { if (!S.raf) { S.last = performance.now(); S.raf = requestAnimationFrame(tick); } }
+
+function rodText(k) {
+  const m = S.model, e = m.e[k], da = Math.max(m.d[e[0]], m.d[e[1]]), db = Math.min(m.d[e[0]], m.d[e[1]]), prod = da * db;
+  const say = SECTOR_SAY[SECTOR[da + ',' + db]];
+  let t = 'Rod between ' + (da === db ? 'two ' + KIND[da] + 's' : 'a ' + KIND[da] + ' and a ' + KIND[db]) + ': ' + da + ' × ' + db + ' = ' + prod + ', ';
+  t += prod <= CAP ? 'within the limit of six, so one look can pin it down. The theory matches this kind of rod with ' + say + '.'
+                   : 'above the limit of six, so no single look can pin it down. The theory calls it dark and matches this kind of rod with ' + say + '.';
+  if (e[2]) t += " Its drawing marks this rod as one that is read.";
+  return t;
+}
+function ballText(i) {
+  const m = S.model, d = m.d[i], used = S.adj[i].length, free = d - used;
+  let t = d === 4 ? 'Hub: two qubits read as one piece with four states, so four sockets. ' : cap1(KIND[d]) + ': ' + WORD[d] + ' states, so ' + WORD[d] + ' sockets. ';
+  t += (used === 1 ? 'One rod ends' : cap1(WORD[used]) + ' rods end') + ' here, which leaves ' + (free === 0 ? 'no socket' : free === 1 ? 'one socket' : WORD[free] + ' sockets') + ' free.';
+  if (m.shared === i) t += " This is the qubit that the electron's network and the proton's share.";
+  return t;
+}
+function select(sel) {
+  S.sel = sel;
+  for (const it of S.items) it.g.classList.toggle('sel', !!sel && ((it.kind === 'ball' && sel.ball === it.i) || (it.kind === 'rod' && sel.rod === it.k)));
+  inspect.textContent = !sel ? HINT : sel.ball != null ? ballText(sel.ball) : rodText(sel.rod);
+  render();
+}
+function stopSpin() { if (S.spin) { S.spin = false; $('#b-spin').setAttribute('aria-pressed', 'false'); } }
+
+scene.addEventListener('pointerdown', e => {
+  if (e.button > 0 || S.drag) return;
+  const r = scene.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+  const tb = e.target.closest('[data-i]'), te = e.target.closest('[data-e]');
+  S.drag = {id: e.pointerId, x0: x, y0: y, x, y, moved: false, ball: tb ? +tb.getAttribute('data-i') : -1, rod: te ? +te.getAttribute('data-e') : -1, z: 0};
+  if (tb) S.drag.z = S.view[S.drag.ball][2];
+  try { scene.setPointerCapture(e.pointerId); } catch (err) { /* capture is a convenience */ }
+  stopSpin();
+  scene.classList.add('grabbing');
+  e.preventDefault();
+});
+scene.addEventListener('pointermove', e => {
+  const d = S.drag;
+  if (!d || e.pointerId !== d.id) return;
+  const r = scene.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+  if (!d.moved && Math.hypot(x - d.x0, y - d.y0) > 5) d.moved = true;
+  if (d.moved) {
+    if (d.ball >= 0) {            // pull the ball in the plane of the screen
+      const f = S.D / (S.D - d.z);
+      S.P[d.ball] = applyT(S.R, [(clamp(x, 10, S.W - 10) - S.cx) / (S.scale * f), -(clamp(y, 10, S.H - 10) - S.cy) / (S.scale * f), d.z]);
+      S.V[d.ball] = [0, 0, 0]; S.active = true; S.still = 0;
+    } else {
+      S.R = ortho(mul(rotX((y - d.y) * 0.011), mul(rotY((x - d.x) * 0.011), S.R)));
+    }
+    kick();
+  }
+  d.x = x; d.y = y;
+});
+const endDrag = e => {
+  const d = S.drag;
+  if (!d || e.pointerId !== d.id) return;
+  S.drag = null;
+  scene.classList.remove('grabbing');
+  if (!d.moved && e.type === 'pointerup') select(d.ball >= 0 ? {ball: d.ball} : d.rod >= 0 ? {rod: d.rod} : null);
+  if (d.ball >= 0 && d.moved) { S.active = true; S.still = 0; }
+  kick();
+};
+scene.addEventListener('pointerup', endDrag);
+scene.addEventListener('pointercancel', endDrag);
+const turn = (a, b) => { stopSpin(); S.R = ortho(mul(rotX(b), mul(rotY(a), S.R))); render(); };
+scene.addEventListener('keydown', e => {
+  const k = e.key;
+  if (k === 'ArrowLeft') turn(-0.2, 0); else if (k === 'ArrowRight') turn(0.2, 0); else if (k === 'ArrowUp') turn(0, -0.2); else if (k === 'ArrowDown') turn(0, 0.2); else return;
+  e.preventDefault();
+});
+$('#b-left').addEventListener('click', () => turn(-0.4, 0));
+$('#b-right').addEventListener('click', () => turn(0.4, 0));
+$('#b-spin').addEventListener('click', () => { S.spin = !S.spin; $('#b-spin').setAttribute('aria-pressed', String(S.spin)); kick(); });
+$('#b-sock').addEventListener('click', () => {
+  const on = $('#b-sock').getAttribute('aria-pressed') !== 'true';
+  $('#b-sock').setAttribute('aria-pressed', String(on));
+  layer.classList.toggle('nosock', !on);
+});
+$('#b-reset').addEventListener('click', () => { setModel(S.model.id); kick(); });
+if (window.ResizeObserver) new ResizeObserver(() => { fit(); render(); }).observe($('#frame'));
+else window.addEventListener('resize', () => { fit(); render(); });
+S.seen = true;                    // the model spins only while it is on screen
+if (window.IntersectionObserver) new IntersectionObserver(en => { S.seen = en[en.length - 1].isIntersecting; if (S.seen) kick(); }).observe($('#frame'));
+
+/* ---------- the chart of models and the placard ---------- */
+const tiles = $('#tiles'), placard = $('#placard');
+CHART.forEach(id => {
+  const c = COPY[id], m = M[id], b = document.createElement('button');
+  b.type = 'button'; b.className = 'tile'; b.id = 'tile-' + id;
+  b.setAttribute('aria-pressed', 'false');
+  b.setAttribute('aria-label', c.title + (m.gen ? ', ' + GEN[m.gen] : '') + ', ' + GRADE[m.grade].toLowerCase());
+  b.innerHTML = '<span class="sym">' + c.sym + '</span><span class="nm">' + c.nm + '</span><i class="pip ' + m.grade + '"></i>';
+  b.addEventListener('click', () => choose(id, true));
+  tiles.appendChild(b);
+});
+
+function showPlacard() {
+  const m = S.model, c = COPY[S.tile], text = m.id === 'proton-star' ? COPY['proton-star'].text : c.text;
+  const part = (cls, n, one, many) => n ? '<span><i class="' + cls + '"></i><b>×' + n + '</b> ' + (n === 1 ? one : many) + '</span>' : '';
+  let h = '<p class="kicker">' + m.family + (m.gen ? ' · ' + GEN[m.gen] : '') + '</p>';
+  h += '<h2><span class="psym">' + c.sym + '</span>' + c.title + '</h2>';
+  h += '<p>' + text + '</p>';
+  if (S.tile === 'proton') {
+    h += '<div class="forms" role="group" aria-label="Form of the proton"><button class="btn" type="button" id="form-catalog" aria-pressed="' + (m.id === 'proton') + '">As cataloged</button><button class="btn" type="button" id="form-star" aria-pressed="' + (m.id === 'proton-star') + '">As three quarks</button></div>';
+  }
+  if (S.tile === 'neutron') h += '<div class="forms"><button class="btn" type="button" id="go-proton-star">Show the proton as three quarks</button></div>';
+  h += '<h3>Parts list</h3><div class="parts">' + part('b d2', m.n2, 'qubit', 'qubits') + part('b d3', m.n3, 'qutrit', 'qutrits') + part('b d4', m.n4, 'hub', 'hubs') + part('r', m.clear, 'clear rod', 'clear rods') + part('r dk', m.dark, 'hidden rod', 'hidden rods') + '</div>';
+  h += '<h3>How firmly it stands</h3><p class="stand"><span class="chip"><i class="pip ' + m.grade + '"></i>' + GRADE[m.grade] + '</span>' + (m.source === 'particles.json' ? '<q id="standing"></q>' : '<span id="standing"></span>') + '</p>';
+  h += '<p class="conj">' + (m.grade === 'book' ? "The theory's own catalog draws no neutron, because the body it records breaks the socket rule. That this network is the neutron is a conjecture." : 'That this network is the ' + c.noun + ' is a conjecture, as it is for every entry.') + '</p>';
+  h += '<p class="tech">' + m.web + ' · ' + m.formula + ' · measure ' + m.measure + '</p>';
+  placard.innerHTML = h;
+  $('#standing').textContent = m.standing;
+  const fc = $('#form-catalog'), fs = $('#form-star'), gp = $('#go-proton-star');
+  if (fc) fc.addEventListener('click', () => { S.protonForm = 'catalog'; choose('proton', true); });
+  if (fs) fs.addEventListener('click', () => { S.protonForm = 'star'; choose('proton', true); });
+  if (gp) gp.addEventListener('click', () => { S.protonForm = 'star'; choose('proton', true); });
+  const n = m.d.length;
+  scene.setAttribute('aria-label', 'Ball-and-stick model of the ' + c.noun + ': ' + n + ' balls and ' + m.e.length + ' rods, of which ' + m.dark + ' hidden.');
+}
+
+function choose(id, fromUser) {
+  if (!COPY[id] || !COPY[id].sym) id = 'electron';
+  S.tile = id;
+  setModel(id === 'proton' && S.protonForm === 'star' ? 'proton-star' : id);
+  for (const b of tiles.children) b.setAttribute('aria-pressed', String(b.id === 'tile-' + id));
+  showPlacard();
+  if (fromUser) { try { history.replaceState(null, '', '#' + id); } catch (err) { try { location.hash = id; } catch (e2) { /* the address is a convenience */ } } }
+  kick();
+}
+window.addEventListener('hashchange', () => { const id = location.hash.slice(1); if (CHART.indexOf(id) >= 0 && id !== S.tile) choose(id, false); });
+
+/* ---------- the table of the six kinds of rod ---------- */
+const WHERE = {'2,2': 'The tied pair of qubits in a hub cluster', '3,2': 'The loose ends of the electron, the muon and the quarks, and all five rods of the photon', '4,2': 'The three legs of every hub cluster',
+               '3,3': "The triangle of the electron, muon and tau, the proton's center and the gluon", '4,3': 'The rod that ties a hub to its qutrit', '4,4': 'The Higgs, and the hub-to-hub rod of the top and bottom quarks'};
+const SECTOR = {}, SECTOR_SAY = {'spacetime': 'spacetime', 'electromagnetism': 'electromagnetism', 'strong interaction': 'the strong interaction', 'weak interaction': 'the weak interaction', 'Yukawa sector': 'the Yukawa sector', 'Higgs': 'the Higgs'};
+DATA.rods.forEach(r => { SECTOR[r[0] + ',' + r[1]] = r[2]; });
+const mini = (a, b) => {
+  const r = {2: 8, 3: 10, 4: 12}, clear = a * b <= CAP;
+  return '<svg class="mini" viewBox="0 0 92 28" role="img" aria-label="' + KIND[a] + ' to ' + KIND[b] + '"><line class="ln' + (clear ? '' : ' dk') + '" x1="' + (16 + r[a]) + '" y1="14" x2="' + (76 - r[b]) + '" y2="14"/><circle cx="16" cy="14" r="' + r[a] + '" class="pc' + a + '"/><circle cx="76" cy="14" r="' + r[b] + '" class="pc' + b + '"/><text x="16" y="18.2">' + a + '</text><text x="76" y="18.2">' + b + '</text></svg>';
+};
+$('#rodtable tbody').innerHTML = DATA.rods.map(([a, b, sector]) => {
+  const p = a * b, clear = p <= CAP;
+  return '<tr' + (p === CAP ? ' class="cut"' : '') + '><td>' + mini(a, b) + '</td><td class="n">' + a + ' × ' + b + ' = ' + p + '</td><td class="' + (clear ? 'yes' : 'no') + '">' + (clear ? 'pins it down' : 'cannot') + '</td><td class="sc" data-l="Sector">' + cap1(sector) + (sector === 'Yukawa sector' ? ', how matter couples to the Higgs' : '') + '</td><td class="w" data-l="In the models">' + WHERE[a + ',' + b] + '</td></tr>';
+}).join('');
+
+/* ---------- bench trial 1: look at both ends of one rod ---------- */
+const WAYS = [['up / down', 'up', 'down'], ['left / right', 'left', 'right'], ['toward / away', 'toward', 'away']];
+const LK = {a: 0, b: 0, n: [[0, 0], [0, 0]], last: null};
+const glyph = (way, ans) => {
+  if (ans == null) return '<text y="8">?</text>';
+  if (way === 2) return '<circle r="10.5"/>' + (ans === 0 ? '<circle class="dot" r="3.6"/>' : '<path d="M-7 -7L7 7M-7 7L7 -7"/>');
+  const rot = way === 0 ? (ans === 0 ? 0 : 180) : (ans === 0 ? -90 : 90);
+  return '<path transform="rotate(' + rot + ')" d="M0 12V-11M-7.5 -3.5L0 -11.5L7.5 -3.5"/>';
+};
+function drawLook() {
+  const wa = WAYS[LK.a], wb = WAYS[LK.b], n = LK.n, N = n[0][0] + n[0][1] + n[1][0] + n[1][1];
+  $('#ans-a').innerHTML = glyph(LK.a, LK.last ? LK.last[0] : null);
+  $('#ans-b').innerHTML = glyph(LK.b, LK.last ? LK.last[1] : null);
+  const cell = v => '<td>' + v + '<i style="width:' + (N ? (100 * v / N).toFixed(1) : 0) + '%"></i></td>';
+  $('#tally').innerHTML = '<thead><tr><th scope="col">Left end said</th><th scope="col">Right: ' + wb[1] + '</th><th scope="col">Right: ' + wb[2] + '</th></tr></thead><tbody>' +
+    [0, 1].map(i => '<tr><th scope="row">' + wa[i + 1] + '</th>' + cell(n[i][0]) + cell(n[i][1]) + '</tr>').join('') + '</tbody>';
+  const times = k => k === 1 ? 'once' : k + ' times';
+  $('#look-sum').textContent = !N ? 'No looks yet.' : LK.a === LK.b
+    ? N + (N === 1 ? ' look' : ' looks') + ' with matching ways. The two ends gave the same answer every time. The left end said ' + wa[1] + ' ' + times(n[0][0] + n[0][1]) + ' and ' + wa[2] + ' ' + times(n[1][0] + n[1][1]) + '.'
+    : N + (N === 1 ? ' look' : ' looks') + ' with different ways. The answers fall in all four boxes, about equally in the long run, so one end tells nothing about the other.';
+}
+function look(times) {
+  for (let t = 0; t < times; t++) {
+    const a = Math.random() < 0.5 ? 0 : 1, b = LK.a === LK.b ? a : (Math.random() < 0.5 ? 0 : 1);
+    LK.n[a][b]++; LK.last = [a, b];
+  }
+  drawLook();
+}
+function clearLooks() { LK.n = [[0, 0], [0, 0]]; LK.last = null; drawLook(); }
+['a', 'b'].forEach(end => {
+  const seg = $('#seg-' + end);
+  WAYS.forEach((w, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'btn'; b.id = 'way-' + end + '-' + i; b.textContent = w[0];
+    b.setAttribute('aria-pressed', String(i === 0));
+    b.addEventListener('click', () => { LK[end] = i; for (const o of seg.children) o.setAttribute('aria-pressed', String(o === b)); clearLooks(); });
+    seg.appendChild(b);
+  });
+});
+$('#look-1').addEventListener('click', () => look(1));
+$('#look-100').addEventListener('click', () => look(100));
+$('#look-clear').addEventListener('click', clearLooks);
+drawLook();
+
+/* ---------- bench trial 2: distill ---------- */
+$('#distill').addEventListener('click', () => {
+  const on = !$('#swap').classList.contains('done');
+  $('#swap').classList.toggle('done', on);
+  $('#distill').setAttribute('aria-pressed', String(on));
+  $('#distill').textContent = on ? 'Start again' : 'Distill B with C';
+  $('#distill-sum').textContent = on ? 'Still two pairs, re-matched: B with C, and A with D, which never met.' : 'Two pairs: A with B, and C with D.';
+});
+
+/* ---------- the one number ---------- */
+const AL = DATA.alpha, GNAME = {1: 'pass neither end', 2: 'pass the qubit end', 3: 'pass the qutrit end', 6: 'pass both ends'};
+$('#waffle').innerHTML = AL.groups.map(([k, n]) => '<div class="wg k' + k + '"><span><b>' + n + ' × ' + (k === 1 ? '1' : '√' + k) + '</b>' + GNAME[k] + '</span><div class="cells" style="grid-template-rows:repeat(' + Math.min(4, n) + ',8px)">' + new Array(n + 1).join('<i></i>') + '</div></div>').join('');
+const NUMER = AL.groups.reduce((s, g) => s + g[1] * Math.sqrt(g[0]), 0), INV = AL.N / NUMER;
+const grp = s => s.replace(/(\d{3})(?=\d)/g, (mm, a, off, str) => off > str.indexOf('.') ? a + ' ' : a);
+$('#sumline').innerHTML = '79 + 48√2 + 42√3 + 3√6 = ' + NUMER.toFixed(5) + '<br>24 × 36 × 36 = 31,104<br>31,104 ÷ ' + NUMER.toFixed(5) + ' = <b id="inverse">' + grp(INV.toFixed(12)) + '</b>';
+
+const CAND = (INV - 137.035999) * 1e9;
+const MEAS = [{group: 'Official values'}, {label: 'CODATA 2010', v: 74, u: 44}, {label: 'CODATA 2014', v: 139, u: 31}, {label: 'CODATA 2018', v: 84, u: 21}, {label: 'CODATA 2022', v: 177, u: 21},
+              {group: 'Single measurements'}, {label: 'Cesium, 2018', v: 46, u: 27}, {label: 'Rubidium, 2020', v: 206, u: 11}, {label: 'Electron, 2023', v: 166, u: 15}];
+const pad3 = v => ('00' + v).slice(-3);
+const sig = r => (CAND - r.v) / r.u;
+const lies = r => { const z = sig(r); return Math.abs(z).toFixed(1) + ' standard uncertainties ' + (z >= 0 ? 'above' : 'below'); };
+$('#plottable tbody').innerHTML = MEAS.filter(r => r.label).map(r => '<tr><td class="q">' + r.label + '</td><td class="n" data-l="Value">137.035 999 ' + pad3(r.v) + '(' + r.u + ')</td><td data-l="Candidate lies">' + lies(r) + '</td></tr>').join('') +
+  '<tr><td class="q">Chain Theory candidate</td><td class="n" data-l="Value">' + grp(INV.toFixed(12)) + '</td><td></td></tr>';
+
+function drawPlot() {
+  const box = $('#plot'), W = Math.max(260, Math.floor(box.clientWidth - 12));
+  const left = W < 430 ? 112 : 140, right = 52, top = 30, rowH = 30, headH = 28, X0 = 0, X1 = 250;
+  const x = v => left + (v - X0) / (X1 - X0) * (W - left - right);
+  let y = top; const rows = [];
+  MEAS.forEach(r => { if (r.group) { rows.push({r, y: y + 18}); y += headH; } else { rows.push({r, y: y + rowH / 2}); y += rowH; } });
+  const plotBottom = y + 4, H = plotBottom + 44;
+  box.textContent = '';
+  const svg = svgEl('svg', {width: W, height: H, viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Measured values of the inverse fine-structure constant against the Chain Theory candidate. The table under the chart gives the numbers.'}, box);
+  for (let t = X0; t <= X1; t += 50) {
+    svgEl('line', {'class': 'grid', x1: x(t), y1: top, x2: x(t), y2: plotBottom}, svg);
+    const tx = svgEl('text', {'class': 'ax', x: x(t), y: plotBottom + 16, 'text-anchor': 'middle'}, svg); tx.textContent = pad3(t);
+  }
+  const at = svgEl('text', {'class': 'ax', x: (x(X0) + x(X1)) / 2, y: plotBottom + 34, 'text-anchor': 'middle'}, svg);
+  at.textContent = W < 430 ? 'last digits of 137.035 999 …' : 'last three digits of 1/α = 137.035 999 …';
+  svgEl('line', {'class': 'cand', x1: x(CAND), y1: top - 8, x2: x(CAND), y2: plotBottom}, svg);
+  const cl = svgEl('text', {'class': 'cl', x: x(CAND) - 7, y: top - 12, 'text-anchor': 'end'}, svg); cl.textContent = 'Chain Theory candidate';
+  let tip = null;
+  const hide = () => { if (tip) { tip.remove(); tip = null; } };
+  rows.forEach(({r, y: ry}) => {
+    if (r.group) { const g = svgEl('text', {'class': 'gl', x: 8, y: ry}, svg); g.textContent = r.group; return; }
+    const lb = svgEl('text', {'class': 'rl', x: 8, y: ry + 4.5}, svg); lb.textContent = r.label;
+    svgEl('line', {'class': 'wh', x1: x(r.v - r.u), y1: ry, x2: x(r.v + r.u), y2: ry}, svg);
+    svgEl('circle', {'class': 'pt', cx: x(r.v), cy: ry, r: 5.5}, svg);
+    const z = sig(r), sg = svgEl('text', {'class': 'sg', x: W - 6, y: ry + 4}, svg); sg.textContent = (z >= 0 ? '+' : '−') + Math.abs(z).toFixed(1) + 'σ';
+    const say = r.label + ': 1/α = 137.035 999 ' + pad3(r.v) + '(' + r.u + '). The candidate lies ' + lies(r) + ' it.';
+    const hit = svgEl('rect', {'class': 'hit', x: 0, y: ry - rowH / 2, width: W, height: rowH, tabindex: 0, role: 'img', 'aria-label': say}, svg);
+    const show = () => {
+      hide();
+      tip = document.createElement('div'); tip.className = 'tip'; tip.textContent = say; box.appendChild(tip);
+      tip.style.left = clamp(x(r.v) - 110, 6, Math.max(6, W - 250)) + 'px'; tip.style.top = (ry + rowH / 2 + 12) + 'px';
+    };
+    hit.addEventListener('pointerenter', show); hit.addEventListener('pointerleave', hide);
+    hit.addEventListener('focus', show); hit.addEventListener('blur', hide);
+    hit.addEventListener('click', show);
+  });
+  box.onpointerleave = hide;
+}
+drawPlot();
+let plotW = $('#plot').clientWidth;
+if (window.ResizeObserver) new ResizeObserver(() => { const w = $('#plot').clientWidth; if (w !== plotW) { plotW = w; drawPlot(); } }).observe($('#plot'));
+
+/* ---------- start ---------- */
+$('#b-spin').setAttribute('aria-pressed', String(S.spin));
+choose(CHART.indexOf(location.hash.slice(1)) >= 0 ? location.hash.slice(1) : 'electron', false);
+})();
+</script>
